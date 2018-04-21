@@ -40,6 +40,13 @@ class PlayState extends FlxState
 		super.create();
 	}	
 
+	public function selectSource(square:Int){
+		_grid.selector.select(square);
+		selectedSource = square;
+		selectedAction = Game.Action.NONE;
+		selectedTarget = -1;
+	}
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
@@ -53,10 +60,7 @@ class PlayState extends FlxState
 			if(selected >=0)
 			{
 				if(selectedAction == Game.Action.NONE){
-					_grid.selector.select(selected);
-					selectedSource = selected;
-					selectedAction = Game.Action.NONE;
-					selectedTarget = -1;
+					selectSource(selected);
 				}else{
 					selectedTarget = selected;
 
@@ -68,6 +72,26 @@ class PlayState extends FlxState
 					}
 
 					selectedTarget = -1;
+				}
+			}
+		}
+
+		if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN){
+			if(selectedAction == Game.Action.NONE){
+				if(selectedSource == -1){
+					selectSource(0);
+				} else {
+					var selectedSourceX = selectedSource % _grid.gridWidth;
+					var selectedSourceY = selectedSource / _grid.gridWidth;
+					if(FlxG.keys.justPressed.LEFT && selectedSourceX > 0){
+						selectSource(selectedSource - 1);
+					} else if(FlxG.keys.justPressed.RIGHT && selectedSourceX < _grid.gridWidth - 1){
+						selectSource(selectedSource + 1);
+					} else if(FlxG.keys.justPressed.UP && selectedSourceY > 0){
+						selectSource(selectedSource - _grid.gridWidth);
+					} else if(FlxG.keys.justPressed.DOWN && selectedSourceY < _grid.gridHeight - 1){
+						selectSource(selectedSource + _grid.gridWidth);
+					}
 				}
 			}
 		}

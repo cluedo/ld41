@@ -82,12 +82,11 @@ class Selector extends FlxSprite
 {
     public var grid:Grid;
     public var selecting:Bool = false;
-    public var square:Int = 0;
 
     public function new(grid: Grid)
     {
         this.grid = grid;
-        super(0, 0);
+        super(-1000, -1000);
         makeGraphic(Grid.CELL_WIDTH+1, 
                     Grid.CELL_HEIGHT+1, 
                     FlxColor.TRANSPARENT, true);
