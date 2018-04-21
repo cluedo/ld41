@@ -3,7 +3,9 @@ package;
 class Registry
 {
     public static var GRID_SIZE = 64;
-    public static var levelList:Array<String> = [AssetPaths.trivial_level__tmx,];
+    public static var levelList:Array<String> = [
+        AssetPaths.real_soccer__tmx,
+        AssetPaths.trivial_level__tmx,];
     public static var currLevel:Int = 0; 
     
     public static var tweenSem:Int = 0;
