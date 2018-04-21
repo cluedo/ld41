@@ -23,6 +23,14 @@ class GridObject extends FlxSprite
         super(X, Y);
     }
 
+    public override function update(elapsed:Float):Void
+    {
+        x = grid.x + Grid.CELL_WIDTH * actor.x;
+        y = grid.y + Grid.CELL_HEIGHT * actor.y;
+
+        super.update(elapsed);
+    }
+
 }
 
 class GridBall extends GridObject

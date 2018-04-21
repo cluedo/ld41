@@ -16,6 +16,12 @@ enum Team {
     NONE;
 }
 
+enum Action {
+    MOVE;
+    KICK;
+    NONE;
+}
+
 class Game
 {
     public var turn:Int;
@@ -86,6 +92,26 @@ class Game
         if(x<0 || x>=width || y<0 || y>= height) return FieldType.INVALID;
         return field[y*width + x];
     }
+
+    public function takeAction(source:Int, target:Int, action:Action):Bool
+    {
+        var sx = source%width;
+        var sy = Std.int(source/width);
+
+        var tx = target%width;
+        var ty = Std.int(target/width);
+        
+        var actor = getActor(sx, sy);
+        if(actor == null)
+        {
+            return false;
+        }else if((actor.team == Team.RED && turn%2==1) ||
+                 (actor.team == Team.BLUE && turn%2==0)){
+            return false;
+        }
+
+        return actor.takeAction(tx, ty, action);
+    }
 }
 
 class Actor
@@ -101,6 +127,11 @@ class Actor
         this.x = x;
         this.y = y;
         this.team = team;
+    }
+
+    public function takeAction(tx:Int, ty:Int, action:Action):Bool
+    {
+        return false;
     }
 }
 
@@ -141,6 +172,18 @@ class Striker extends Actor
         return true;
     }
 
+    public override function takeAction(tx:Int, ty:Int, action:Action):Bool
+    {
+        var dx = tx-x;
+        var dy = ty-y;
+
+        switch(action){
+            case Action.MOVE:
+                return move(dx, dy);
+            default:
+                return false;
+        }
+    }
 }
 
 class Ball extends Actor
