@@ -40,7 +40,7 @@ class GridPlayer extends GridObject
     {
         super(grid, actor);
         if(actor.team==Game.Team.RED)
-            loadGraphic(AssetPaths.basic_red_player__png, false, 64, 64, true);
+            loadGraphic(AssetPaths.basic_red_player1__png, false, 64, 64, true);
         else
             loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
     }
