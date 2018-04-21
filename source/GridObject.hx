@@ -9,8 +9,27 @@ import haxe.ds.Vector;
 
 class GridObject extends FlxSprite
 {
-    public var gridX:Int;
-    public var gridY:Int;
     public var grid:Grid;
+    public var actor:Game.Actor;
     
+    public function new(grid:Grid, actor:Game.Actor)
+    {
+        this.grid = grid;
+        this.actor = actor;
+
+        var X = grid.x + grid.cellWidth * actor.x;
+        var Y = grid.y + grid.cellHeight * actor.y;
+
+        super(X, Y);
+    }
+
+}
+
+class GridBall extends GridObject
+{
+    public function new(grid:Grid, actor:Game.Actor)
+    {
+        super(grid, actor);
+        loadGraphic(AssetPaths.ball__png, false, 64, 64, true);
+    }
 }
