@@ -9,11 +9,8 @@ import haxe.ds.Vector;
 
 class GridObject extends FlxSprite
 {
-    
-
-    public function new(?X:Float=0, ?Y:Float=0)
-    {
-        super(X, Y);
-    }
+    public var gridX:Int;
+    public var gridY:Int;
+    public var grid:Grid;
     
 }
