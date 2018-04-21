@@ -10,9 +10,16 @@ import flixel.util.FlxColor;
 
 class PlayState extends FlxState
 {
+<<<<<<< HEAD
 	private var _level:Level;
     private var _levelFile:String;
     private var _grid:Grid;
+=======
+	private var _grid:Grid;
+	private var _game:Game;
+
+	public var selected:Int;
+>>>>>>> c4544514b4af972872ed88ffe775081070ac1931
 	override public function create():Void
 	{	
 		bgColor = new FlxColor(0xff303030);
@@ -30,6 +37,8 @@ class PlayState extends FlxState
 			add(object);
 		}
 
+		add(_grid.selector);
+
 		super.create();
 	}	
 
@@ -42,8 +51,8 @@ class PlayState extends FlxState
 			var dx = FlxG.mouse.x - _grid.x;
 			var dy = FlxG.mouse.y - _grid.y;
 
-			trace(dx);
-			trace(dy);
+			selected = _grid.getSquare(dx, dy);
+			_grid.selector.select(selected);
 		}
 	}
 
