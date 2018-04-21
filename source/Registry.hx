@@ -2,6 +2,7 @@ package;
 
 class Registry
 {
+    public static var GRID_SIZE = 64;
     public static var levelList:Array<String> = [AssetPaths.trivial_level__tmx,];
     public static var currLevel:Int = 0; 
     
@@ -10,4 +11,10 @@ class Registry
 
     // true if coming from an Exit
     public static var fromExit:Bool = false;
+    private static var _initialized:Bool = false;
+    public static function init() {
+        if (_initialized) return;
+
+        _initialized = true;
+    }
 }

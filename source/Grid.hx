@@ -8,8 +8,8 @@ class Grid extends FlxSprite
 {
     public var gridHeight:Int;
     public var gridWidth:Int;
-    public var cellHeight:Int = 64;
-    public var cellWidth:Int = 64;
+    public var cellHeight:Int = Registry.GRID_SIZE;
+    public var cellWidth:Int = Registry.GRID_SIZE;
 
     public var gridObjects:Array<GridObject>;
 

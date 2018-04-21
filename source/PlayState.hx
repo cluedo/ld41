@@ -10,21 +10,19 @@ import flixel.util.FlxColor;
 
 class PlayState extends FlxState
 {
-	private var _grid:Grid;
-	private var _game:Game;
+	private var _level:Level;
+    private var _levelFile:String;
+    private var _grid:Grid;
 	override public function create():Void
 	{	
 		bgColor = new FlxColor(0xff303030);
 
-		_game = new Game(7, 7);
-		var redStriker = new Game.Striker(1,1,Game.Team.RED);
-		_game.addActor(redStriker);
-		var blueStriker = new Game.Striker(5,5,Game.Team.BLUE);
-		_game.addActor(blueStriker);
-		var ball = new Game.Ball(3,3);
-		_game.addBall(ball);
+		Registry.init();
+		_levelFile = Registry.levelList[Registry.currLevel];
+        _level = new Level(_levelFile);
 
-		_grid = Grid.fromGame(_game);
+
+		_grid = Grid.fromGame(_level.game);
 		add(_grid);
 
 		for(object in _grid.gridObjects)
