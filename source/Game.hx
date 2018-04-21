@@ -79,6 +79,9 @@ class Game
     {
         actors[ny*width + nx] = a;
         actors[a.y*width + a.x] = null;
+        
+        a.x = nx;
+        a.y = ny;
     }
 
     public function getActor(x:Int, y:Int):Actor
@@ -166,8 +169,6 @@ class Striker extends Actor
             return false;
 
         game.moveActor(this, nx, ny);
-        x = nx;
-        y = ny;
 
         return true;
     }
@@ -180,6 +181,19 @@ class Striker extends Actor
         switch(action){
             case Action.MOVE:
                 return move(dx, dy);
+            case Action.KICK:
+                if(Math.abs(dx)>1 || Math.abs(dy) > 1)
+                    return false;
+                var target = game.getActor(tx, ty);
+                if(target == null)
+                    return false;
+                if(!Std.is(target, Ball))
+                    return false;
+                
+                var ball:Ball = cast target;
+                ball.move(dx, dy, kickPower);
+                return true;
+
             default:
                 return false;
         }
@@ -191,5 +205,29 @@ class Ball extends Actor
     public function new(x:Int, y:Int)
     {
         super(x, y, Team.NONE);
+    }
+
+    public function move(dx:Int, dy:Int, power:Int)
+    {
+        if(Math.abs(dx)>1 || Math.abs(dy) > 1)
+            return;
+        if(power==0)
+            return;
+        
+        var nx = x + dx;
+        var ny = y + dy;
+
+        var fieldType = game.getField(nx, ny);
+        if(fieldType != FieldType.FLOOR)
+            return;
+
+        var actor = game.getActor(nx, ny);
+        if(actor != null)
+            return;
+
+        game.moveActor(this, nx, ny);
+
+        move(dx, dy, power-1);
+        
     }
 }
