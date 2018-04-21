@@ -17,8 +17,8 @@ class GridObject extends FlxSprite
         this.grid = grid;
         this.actor = actor;
 
-        var X = grid.x + grid.cellWidth * actor.x;
-        var Y = grid.y + grid.cellHeight * actor.y;
+        var X = grid.x + Grid.CELL_WIDTH * actor.x;
+        var Y = grid.y + Grid.CELL_HEIGHT * actor.y;
 
         super(X, Y);
     }

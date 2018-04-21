@@ -12,6 +12,8 @@ class PlayState extends FlxState
 {
 	private var _grid:Grid;
 	private var _game:Game;
+
+	public var selected:Int;
 	override public function create():Void
 	{	
 		bgColor = new FlxColor(0xff303030);
@@ -32,6 +34,8 @@ class PlayState extends FlxState
 			add(object);
 		}
 
+		add(_grid.selector);
+
 		super.create();
 	}	
 
@@ -44,8 +48,8 @@ class PlayState extends FlxState
 			var dx = FlxG.mouse.x - _grid.x;
 			var dy = FlxG.mouse.y - _grid.y;
 
-			trace(dx);
-			trace(dy);
+			selected = _grid.getSquare(dx, dy);
+			_grid.selector.select(selected);
 		}
 	}
 

@@ -4,14 +4,17 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 
+
 class Grid extends FlxSprite
 {
+    public static var CELL_WIDTH:Int = 64;
+    public static var CELL_HEIGHT:Int = 64;
+
     public var gridHeight:Int;
     public var gridWidth:Int;
-    public var cellHeight:Int = 64;
-    public var cellWidth:Int = 64;
 
     public var gridObjects:Array<GridObject>;
+    public var selector:Selector;
 
     public function new(width:Int, height:Int, ?X:Float=0, ?Y:Float=0)
     {
@@ -21,18 +24,20 @@ class Grid extends FlxSprite
         gridObjects = new Array<GridObject>();
 
         super(X, Y);
-        makeGraphic(gridWidth*cellWidth+1, 
-                    gridHeight*cellHeight+1, 
+        makeGraphic(gridWidth*CELL_WIDTH+1, 
+                    gridHeight*CELL_HEIGHT+1, 
                     FlxColor.GREEN, true);
 
         for(x in 0...gridWidth+1)
         {
-            FlxSpriteUtil.drawLine(this, x*cellWidth, 0, x*cellWidth, gridHeight*cellHeight, {thickness: 3});
+            FlxSpriteUtil.drawLine(this, x*CELL_WIDTH, 0, x*CELL_WIDTH, gridHeight*CELL_HEIGHT, {thickness: 3});  
         }
         for(y in 0...gridHeight+1)
         {
-            FlxSpriteUtil.drawLine(this, 0, y*cellHeight, gridWidth*cellWidth, y*cellHeight, {thickness: 3});
+            FlxSpriteUtil.drawLine(this, 0, y*CELL_HEIGHT, gridWidth*CELL_WIDTH, y*CELL_HEIGHT, {thickness: 3});
         }
+
+        selector = new Selector(this);
     }
 
     public static function fromGame(game:Game):Grid
@@ -56,5 +61,43 @@ class Grid extends FlxSprite
 
         return grid;
     }
-    
+
+    public function getSquare(dx:Float, dy:Float):Int
+    {
+        var x:Int = Math.floor(dx/CELL_WIDTH);
+        var y:Int = Math.floor(dy/CELL_HEIGHT);
+
+        if(x<0 || x>=gridWidth || y<0 || y>= gridHeight) return -1;
+        return y*gridWidth + x;
+    }
+
+
+}
+
+class Selector extends FlxSprite
+{
+    public var grid:Grid;
+    public var selecting:Bool = false;
+    public var square:Int = 0;
+
+    public function new(grid: Grid)
+    {
+        this.grid = grid;
+        super(0, 0);
+        makeGraphic(Grid.CELL_WIDTH+1, 
+                    Grid.CELL_HEIGHT+1, 
+                    FlxColor.TRANSPARENT, true);
+        FlxSpriteUtil.drawRect(this, 1,1, 
+                               Grid.CELL_WIDTH-1, 
+                               Grid.CELL_HEIGHT-1, 
+                               FlxColor.TRANSPARENT, 
+                               {color: FlxColor.RED,
+                                thickness: 2});
+    }
+
+    public function select(square:Int)
+    {
+        x = grid.x + (square%grid.gridWidth)*Grid.CELL_WIDTH;
+        y = grid.y + Std.int(square/grid.gridWidth)*Grid.CELL_HEIGHT;
+    }
 }
