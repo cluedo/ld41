@@ -68,9 +68,9 @@ class PlayState extends FlxState
 					if(success)
 					{
 						selectedSource = -1;
-						selectedAction = Game.Action.NONE;
 					}
 
+					selectedAction = Game.Action.NONE;
 					selectedTarget = -1;
 				}
 			}
