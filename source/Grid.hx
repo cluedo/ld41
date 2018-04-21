@@ -42,6 +42,18 @@ class Grid extends FlxSprite
         var ball = new GridObject.GridBall(grid, game.ball);
         grid.gridObjects.push(ball);
 
+        for(redTeammate in game.redTeam)
+        {
+            var player = new GridObject.GridPlayer(grid, redTeammate);
+            grid.gridObjects.push(player);
+        }
+
+        for(blueTeammate in game.blueTeam)
+        {
+            var player = new GridObject.GridPlayer(grid, blueTeammate);
+            grid.gridObjects.push(player);
+        }
+
         return grid;
     }
     

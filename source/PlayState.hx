@@ -22,8 +22,7 @@ class PlayState extends FlxState
 		var blueStriker = new Game.Striker(5,5,Game.Team.BLUE);
 		_game.addActor(blueStriker);
 		var ball = new Game.Ball(3,3);
-		_game.addActor(ball);
-		_game.ball = ball;
+		_game.addBall(ball);
 
 		_grid = Grid.fromGame(_game);
 		add(_grid);

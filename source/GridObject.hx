@@ -33,3 +33,15 @@ class GridBall extends GridObject
         loadGraphic(AssetPaths.ball__png, false, 64, 64, true);
     }
 }
+
+class GridPlayer extends GridObject
+{
+    public function new(grid:Grid, actor:Game.Actor)
+    {
+        super(grid, actor);
+        if(actor.team==Game.Team.RED)
+            loadGraphic(AssetPaths.red_placeholder__png, false, 64, 64, true);
+        else
+            loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+    }
+}

@@ -42,13 +42,31 @@ class Game
 
         actors = new Vector<Actor>(width*height);
 
+        redTeam = new Array<Actor>();
+        blueTeam = new Array<Actor>();
+
         turn = 0;
+    }
+
+    public function addBall(ball:Ball)
+    {
+        this.ball = ball;
+        addActor(ball);
     }
 
     public function addActor(a:Actor)
     {
         a.game = this;
         actors[a.y*width + a.x] = a;
+
+        if(a.team == Team.RED)
+        {
+            redTeam.push(a);
+        }
+        else if(a.team == Team.BLUE)
+        {
+            blueTeam.push(a);
+        }
     }
 
     public function moveActor(a:Actor, nx:Int, ny:Int)
