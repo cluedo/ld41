@@ -3,23 +3,22 @@ package;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
-import haxe.ds.Vector;
 
 class Grid extends FlxSprite
 {
     public var gridHeight:Int;
     public var gridWidth:Int;
-    public var cellHeight:Int = 40;
-    public var cellWidth:Int = 40;
+    public var cellHeight:Int = 64;
+    public var cellWidth:Int = 64;
 
-    public var gridObjects:Vector<GridObject>;
+    public var gridObjects:Array<GridObject>;
 
     public function new(width:Int, height:Int, ?X:Float=0, ?Y:Float=0)
     {
         gridWidth = width;
         gridHeight = height;
 
-        gridObjects = new Vector<GridObject>(width*height);
+        gridObjects = new Array<GridObject>();
 
         super(X, Y);
         makeGraphic(gridWidth*cellWidth+1, 
@@ -36,11 +35,14 @@ class Grid extends FlxSprite
         }
     }
 
-    public function get(x:Int, y:Int):GridObject
+    public static function fromGame(game:Game):Grid
     {
-        if(x<0 || x>=gridWidth || y<0 || y>= gridHeight) return null;
-        return gridObjects[y*gridWidth + x];
-    }
+        var grid = new Grid(game.width, game.height);
 
+        var ball = new GridObject.GridBall(grid, game.ball);
+        grid.gridObjects.push(ball);
+
+        return grid;
+    }
     
 }
