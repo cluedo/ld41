@@ -79,7 +79,7 @@ class Game
     {
         actors[ny*width + nx] = a;
         actors[a.y*width + a.x] = null;
-        
+
         a.x = nx;
         a.y = ny;
     }
@@ -115,6 +115,17 @@ class Game
 
         return actor.takeAction(tx, ty, action);
     }
+
+    public function endTurn()
+    {
+        for(actor in actors)
+        {
+            if(actor!=null)
+                actor.endTurn();
+        }
+
+        turn++;
+    }
 }
 
 class Actor
@@ -136,6 +147,11 @@ class Actor
     {
         return false;
     }
+
+    public function endTurn()
+    {
+        return;
+    }
 }
 
 class Striker extends Actor
@@ -150,10 +166,14 @@ class Striker extends Actor
     public function new(x:Int, y:Int, team:Team)
     {
         super(x, y, team);
+        curMoves = numMoves;
+        curKicks = numKicks;
     }
 
     public function move(dx:Int, dy:Int):Bool
     {
+        if(curMoves==0)
+            return false;
         if(Math.abs(dx) + Math.abs(dy) != 1)
             return false;
 
@@ -169,7 +189,24 @@ class Striker extends Actor
             return false;
 
         game.moveActor(this, nx, ny);
+        curMoves--;
+        return true;
+    }
 
+    public function kick(dx:Int, dy:Int):Bool
+    {
+        if(curKicks == 0) return false;
+        if(Math.abs(dx)>1 || Math.abs(dy) > 1)
+            return false;
+        var target = game.getActor(x + dx, y + dy);
+        if(target == null)
+            return false;
+        if(!Std.is(target, Ball))
+            return false;
+        
+        var ball:Ball = cast target;
+        ball.move(dx, dy, kickPower);
+        curKicks--;
         return true;
     }
 
@@ -182,21 +219,17 @@ class Striker extends Actor
             case Action.MOVE:
                 return move(dx, dy);
             case Action.KICK:
-                if(Math.abs(dx)>1 || Math.abs(dy) > 1)
-                    return false;
-                var target = game.getActor(tx, ty);
-                if(target == null)
-                    return false;
-                if(!Std.is(target, Ball))
-                    return false;
-                
-                var ball:Ball = cast target;
-                ball.move(dx, dy, kickPower);
-                return true;
+                return kick(dx, dy);
 
             default:
                 return false;
         }
+    }
+
+    public override function endTurn()
+    {
+        curKicks = numKicks;
+        curMoves = numMoves;
     }
 }
 
