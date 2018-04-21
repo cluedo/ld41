@@ -38,6 +38,15 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+		if(FlxG.mouse.justPressed)
+		{
+			var dx = FlxG.mouse.x - _grid.x;
+			var dy = FlxG.mouse.y - _grid.y;
+
+			trace(dx);
+			trace(dy);
+		}
 	}
 
 }
