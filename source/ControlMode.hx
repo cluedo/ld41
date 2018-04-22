@@ -7,6 +7,54 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxPoint;
 import Game.Actor;
+import Game.Striker;
+
+enum Direction {
+    LEFT;
+    DOWN;
+    RIGHT;
+    UP;
+    STOP;
+    NONE;
+}
+
+class Directions {
+    public static function reverseDirection(d:Direction):Direction {
+        return switch(d){
+            case Direction.LEFT: Direction.RIGHT;
+            case Direction.DOWN: Direction.UP;
+            case Direction.RIGHT: Direction.LEFT;
+            case Direction.UP: Direction.DOWN;
+            case Direction.STOP: Direction.STOP;
+            case Direction.NONE: Direction.NONE;
+        }
+    }
+
+    public static function lastDirectionPressed():Direction {
+        if(FlxG.keys.justPressed.LEFT){
+            return Direction.LEFT;
+        } else if(FlxG.keys.justPressed.DOWN){
+            return Direction.DOWN;
+        } else if(FlxG.keys.justPressed.RIGHT){
+            return Direction.RIGHT;
+        } else if(FlxG.keys.justPressed.UP){
+            return Direction.UP;
+        } else {
+            return Direction.NONE;
+        }
+    }
+
+    public static function toInt(d:Direction):Int {
+        return switch(d){
+            case Direction.LEFT: 0;
+            case Direction.DOWN: 1;
+            case Direction.RIGHT: 2;
+            case Direction.UP: 3;
+            case Direction.STOP: 4;
+            case Direction.NONE: 5;
+        }
+    }
+}
 
 class ControlMode {
     public var parent:ControlMode = null;
@@ -172,16 +220,16 @@ class SelectionControlMode extends ControlMode {
         if(selectable(actor)){
             if(FlxG.keys.justPressed.M && actor.hasMoves())
             {
-                state.currentControlMode = new MovementControlMode(state, this, actor);
+                state.currentControlMode = new MovementControlMode(state, this, cast(actor, Striker));
                 return;
             }
             if(FlxG.keys.justPressed.M && !actor.hasMoves())
             {
                 _badSelectionSound.play();
             }
-            else if(FlxG.keys.justPressed.K)
+            else if(FlxG.keys.justPressed.K && cast(actor, Striker).curKicks > 0)
             {
-                state.currentControlMode = new KickControlMode(state, this, actor);
+                state.currentControlMode = new KickControlMode(state, this, cast(actor, Striker));
                 return;
             }
         }
@@ -193,48 +241,167 @@ class SelectionControlMode extends ControlMode {
     }
 }
 
-class MovementControlMode extends ControlMode {
-    public var sourceSquare:Int = -1;
-    public var destinationSelector:Selector;
-    public var mover:Actor;
 
-    public function new(theState:PlayState, theParent:ControlMode, theMover:Actor){
+class MovementControlMode extends ControlMode {
+    public static var arrowImg:Array<Array<String>> = 
+    [
+        [AssetPaths.arrow_ll__png, AssetPaths.arrow_ld__png, "", AssetPaths.arrow_lu__png, AssetPaths.arrow_ls__png],
+        [AssetPaths.arrow_dl__png, AssetPaths.arrow_dd__png, AssetPaths.arrow_dr__png, "", AssetPaths.arrow_ds__png],
+        ["", AssetPaths.arrow_rd__png, AssetPaths.arrow_rr__png, AssetPaths.arrow_ru__png, AssetPaths.arrow_rs__png],
+        [AssetPaths.arrow_ul__png, "", AssetPaths.arrow_ur__png, AssetPaths.arrow_uu__png, AssetPaths.arrow_us__png],
+        [AssetPaths.arrow_sl__png, AssetPaths.arrow_sd__png, AssetPaths.arrow_sr__png, AssetPaths.arrow_su__png, AssetPaths.arrow_ss__png]
+    ];
+
+    public var mover:Striker;
+    public var directionList:Array<Direction> = [];
+    public var arrows:Array<FlxSprite> = [];
+    public var movesLeft:Int;
+
+    public function new(theState:PlayState, theParent:ControlMode, theMover:Striker){
         super(theState, theParent);
         mover = theMover;
-        destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
-        destinationSelector.selectXY(mover.x, mover.y);
-        state.add(destinationSelector);
+        directionList = [];
+        if(Std.is(mover, Game.SkaterBoy)) {
+            movesLeft = 1;
+        } else {
+            movesLeft = mover.curMoves;
+        }
+        drawArrows();
+    }
+
+    public function currentX() {
+        var x:Int = mover.x;
+        for(direction in directionList) {
+            if(direction == Direction.LEFT){
+                x--;
+            } else if(direction == Direction.RIGHT){
+                x++;
+            }
+        }
+        return x;
+    }
+
+    public function currentY() {
+        var y:Int = mover.y;
+        for(direction in directionList) {
+            if(direction == Direction.UP){
+                y--;
+            } else if(direction == Direction.DOWN){
+                y++;
+            }
+        }
+        return y;
+    }
+
+    public function eraseArrows() {
+        for(arrow in arrows){
+            state.remove(arrow);
+        }
+        arrows = [];
+    }
+
+    public function drawArrows() {
+        eraseArrows();
+        var x:Int = mover.x;
+        var y:Int = mover.y;
+        var lastDirectionInt = 4;
+
+        for(direction in directionList.concat([Direction.STOP])){
+            var directionInt:Int = Directions.toInt(direction);
+
+            var newArrow = new FlxSprite(state._grid.x + Grid.CELL_WIDTH * x, state._grid.y + Grid.CELL_HEIGHT * y, arrowImg[lastDirectionInt][directionInt]);
+            state.add(newArrow);
+            arrows.push(newArrow);
+
+            if(direction == Direction.LEFT){
+                x--;
+            } else if(direction == Direction.RIGHT){
+                x++;
+            } else if(direction == Direction.UP){
+                y--;
+            } else if(direction == Direction.DOWN){
+                y++;
+            }
+            lastDirectionInt = directionInt;
+        }
     }
 
     override public function doInput(){
         scrollScreen();
+        
+        var nextDirection:Direction = Directions.lastDirectionPressed();
+        var x:Int = currentX();
+        var y:Int = currentY();
+        
+        if(nextDirection == Direction.NONE && FlxG.mouse.justPressed) {
+            var dx = FlxG.mouse.x - state._grid.x;
+			var dy = FlxG.mouse.y - state._grid.y;
 
-        destinationSelector.moveSelection();
+			var newSelection:Int = state._grid.getSquare(dx, dy);
+            var newSelectionX:Int = newSelection % state._grid.gridWidth;
+            var newSelectionY:Int = Math.floor(newSelection/state._grid.gridWidth);
 
-        if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.Z || FlxG.mouse.justPressed)
-        {
-            if(mover.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.MOVE)) {
-                state.remove(destinationSelector);
-                state.currentControlMode = parent;
-                state.topControlMode.sourceSelector.selectXY(mover.x, mover.y);
-                if(FlxG.keys.justPressed.M) {
-                    state.topControlMode.sourceSelector.focusCamera();
-                }
+            if(newSelectionX == x+1 && newSelectionY == y) {
+                nextDirection = Direction.RIGHT;
+            } else if(newSelectionX == x-1 && newSelectionY == y) {
+                nextDirection = Direction.LEFT;
+            } else if(newSelectionX == x && newSelectionY == y-1) {
+                nextDirection = Direction.UP;
+            } else if(newSelectionX == x && newSelectionY == y+1) {
+                nextDirection = Direction.DOWN;
             }
+        }
+
+        if(nextDirection != Direction.NONE){
+            if(nextDirection == Direction.LEFT){
+                x--;
+            } else if(nextDirection == Direction.RIGHT){
+                x++;
+            } else if(nextDirection == Direction.UP){
+                y--;
+            } else if(nextDirection == Direction.DOWN){
+                y++;
+            }
+            if(Directions.reverseDirection(nextDirection) == directionList[directionList.length - 1]){
+                directionList.pop();
+            } else if(directionList.length < movesLeft && mover.canMoveThrough(x, y)) {
+                directionList.push(nextDirection);
+            }
+            drawArrows();
+        }
+        else if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.Z)
+        {
+            var x:Int = mover.x;
+            var y:Int = mover.y;
+            for(direction in directionList){
+                if(direction == Direction.LEFT){
+                    x--;
+                } else if(direction == Direction.RIGHT){
+                    x++;
+                } else if(direction == Direction.UP){
+                    y--;
+                } else if(direction == Direction.DOWN){
+                    y++;
+                }
+                mover.takeAction(x, y, Game.Action.MOVE);
+            }
+            state.currentControlMode = parent;
+            state.topControlMode.sourceSelector.selectXY(mover.x, mover.y);
+            state.topControlMode.sourceSelector.focusCamera();
+            eraseArrows();
         } else if(FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.X) {
-            state.remove(destinationSelector);
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
+            eraseArrows();
         }
     }
 }
 
 class KickControlMode extends ControlMode {
-    public var sourceSquare:Int = -1;
     public var destinationSelector:Selector;
-    public var kicker:Actor;
+    public var kicker:Striker;
 
-    public function new(theState:PlayState, theParent:ControlMode, theKicker:Actor){
+    public function new(theState:PlayState, theParent:ControlMode, theKicker:Striker){
         super(theState, theParent);
         kicker = theKicker;
         destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
