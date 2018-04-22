@@ -6,6 +6,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxPoint;
 import Game.Actor;
+import Game.Striker;
 
 class ControlMode {
     public var parent:ControlMode = null;
@@ -160,13 +161,13 @@ class SelectionControlMode extends ControlMode {
         }
 
         var actor:Actor = state._level.game.getActor(sourceSelector.selectionX, sourceSelector.selectionY);
-        if(selectable(actor)){
-            if(FlxG.keys.justPressed.M)
+        if(selectable(actor) && Std.is(actor, Striker)){
+            if(FlxG.keys.justPressed.M && cast(actor, Striker).curMoves > 0)
             {
                 state.currentControlMode = new MovementControlMode(state, this, actor);
                 return;
             }
-            else if(FlxG.keys.justPressed.K)
+            else if(FlxG.keys.justPressed.K && cast(actor, Striker).curKicks > 0)
             {
                 state.currentControlMode = new KickControlMode(state, this, actor);
                 return;
