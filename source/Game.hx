@@ -151,6 +151,8 @@ class Actor
     {
         this.x = x;
         this.y = y;
+        this.startX = x;
+        this.startY = y;
         this.team = team;
         _kickSound = FlxG.sound.load(AssetPaths.kick__wav);
         _applauseSound = FlxG.sound.load(AssetPaths.applause__wav);
