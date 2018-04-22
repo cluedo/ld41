@@ -11,8 +11,8 @@ class Main extends Sprite
 		super();
 		addChild(new FlxGame(800, 600, PlayState, 1, 60, 60, true));
 		
-		var item1:MenuItem = new MenuItem("Hello");
-		var item2:MenuItem = new MenuItem("Hello2");
-		var menu:Menu = new Menu(0, [item1, item2]);
+		var item1 = new Menu.MenuItem("Hello");
+		var item2 = new Menu.MenuItem("Hello2");
+		var menu:Menu = new Menu.Menu(0, [item1, item2]);
 	}
 }
