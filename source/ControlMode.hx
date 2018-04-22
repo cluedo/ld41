@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
+import flixel.math.FlxPoint;
 
 class ControlMode {
     public var parent:ControlMode = null;
@@ -103,6 +104,7 @@ class Selector extends FlxSprite
                 } else if(FlxG.keys.justPressed.DOWN && selectionY < grid.gridHeight - 1){
                     selectXY(selectionX, selectionY + 1);
                 }
+                FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));
             }
 		}
     }
@@ -156,7 +158,7 @@ class MovementControlMode extends ControlMode {
         destinationSelector.moveSelection();
         if(destinationSelector.getSelectedSquare() >= 0)
 		{
-			if(FlxG.keys.justPressed.Z || FlxG.mouse.justPressed)
+			if(FlxG.keys.justPressed.M || FlxG.mouse.justPressed)
 			{
 				state._level.game.takeAction(sourceSquare, destinationSelector.getSelectedSquare(), Game.Action.MOVE);
                 state.remove(destinationSelector);
@@ -183,7 +185,7 @@ class KickControlMode extends ControlMode {
         destinationSelector.moveSelection();
         if(destinationSelector.getSelectedSquare() >= 0)
 		{
-			if(FlxG.keys.justPressed.Z || FlxG.mouse.justPressed)
+			if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
 			{
 				state._level.game.takeAction(sourceSquare, destinationSelector.getSelectedSquare(), Game.Action.KICK);
                 state.remove(destinationSelector);

@@ -32,8 +32,6 @@ class PlayState extends FlxState
 		
 		add(_grid);
 
-		
-
 		for(object in _grid.gridObjects)
 		{
 			add(object);
@@ -41,6 +39,11 @@ class PlayState extends FlxState
 
 		currentControlMode = new ControlMode.SelectionControlMode(this, null);
 		
+		FlxG.camera.minScrollX = Grid.CELL_WIDTH/2 - FlxG.camera.width/2;
+		FlxG.camera.minScrollY = Grid.CELL_HEIGHT/2 - FlxG.camera.height/2;
+		FlxG.camera.maxScrollX = Grid.CELL_WIDTH * _grid.gridWidth - Grid.CELL_WIDTH/2 + FlxG.camera.width/2;
+		FlxG.camera.maxScrollY = Grid.CELL_HEIGHT * _grid.gridHeight - Grid.CELL_HEIGHT/2 + FlxG.camera.height/2;
+
 		super.create();
 	}	
 
