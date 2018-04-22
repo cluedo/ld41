@@ -285,7 +285,7 @@ class Striker extends Actor
             return false;
 
         var actor = game.getActor(nx, ny);
-        if(actor != null && !Std.is(actor, Ball))
+        if(actor != null && actor != this && !Std.is(actor, Ball))
             return false;
         
         return true;
@@ -449,7 +449,7 @@ class SkaterBoy extends Striker
             return false;
 
         var actor = game.getActor(nx, ny);
-        if(actor != null)
+        if(actor != null && actor != this)
             return false;
         
         return true;

@@ -53,21 +53,21 @@ class GridPlayer extends GridObject
             if(actor.team==Game.Team.RED)
                 loadGraphic(AssetPaths.red_bruiser__png, false, 64, 64, true);
             else
-                loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+                loadGraphic(AssetPaths.blue_bruiser__png, false, 64, 64, true);
         }
         else if(Std.is(actor, Game.SkaterBoy))
         {
             if(actor.team==Game.Team.RED)
                 loadGraphic(AssetPaths.red_skater_boy__png, false, 64, 64, true);
             else
-                loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+                loadGraphic(AssetPaths.blue_skater_boy__png, false, 64, 64, true);
         }
         else if(Std.is(actor, Game.Striker))
         {
             if(actor.team==Game.Team.RED)
-                loadGraphic(AssetPaths.basic_red_player1__png, false, 64, 64, true);
+                loadGraphic(AssetPaths.red_striker__png, false, 64, 64, true);
             else
-                loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+                loadGraphic(AssetPaths.blue_striker__png, false, 64, 64, true);
         }
         
     }

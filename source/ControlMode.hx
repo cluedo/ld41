@@ -99,10 +99,9 @@ class Selector extends FlxSprite
     public var selectionY:Int = -1;
     private var _selectSound:FlxSound;
 
-    public function new(grid:Grid, theColor:FlxColor)
+    public function new(grid:Grid)
     {
         this.grid = grid;
-        this.color = theColor;
         super(-1000, -1000);
         makeGraphic(Grid.CELL_WIDTH+1, 
                     Grid.CELL_HEIGHT+1, 
@@ -111,7 +110,7 @@ class Selector extends FlxSprite
                                Grid.CELL_WIDTH-1, 
                                Grid.CELL_HEIGHT-1, 
                                FlxColor.TRANSPARENT, 
-                               {color: theColor,
+                               {color: FlxColor.WHITE,
                                 thickness: 4});
 
         _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
@@ -180,7 +179,7 @@ class SelectionControlMode extends ControlMode {
     
     public function new(theState:PlayState, theParent:ControlMode){
         super(theState, theParent);
-        sourceSelector = new Selector(state._grid, FlxColor.RED);
+        sourceSelector = new Selector(state._grid);
         state.add(sourceSelector);
     }
 
@@ -335,8 +334,7 @@ class MovementControlMode extends ControlMode {
         scrollScreen();
         
         var nextDirection:Direction = Directions.lastDirectionPressed();
-        var x:Int = currentX();
-        var y:Int = currentY();
+        
         
         if(nextDirection == Direction.NONE && FlxG.mouse.justPressed) {
             var dx = FlxG.mouse.x - state._grid.x;
@@ -346,32 +344,89 @@ class MovementControlMode extends ControlMode {
             var newSelectionX:Int = newSelection % state._grid.gridWidth;
             var newSelectionY:Int = Math.floor(newSelection/state._grid.gridWidth);
 
-            if(newSelectionX == x+1 && newSelectionY == y) {
-                nextDirection = Direction.RIGHT;
-            } else if(newSelectionX == x-1 && newSelectionY == y) {
-                nextDirection = Direction.LEFT;
-            } else if(newSelectionX == x && newSelectionY == y-1) {
-                nextDirection = Direction.UP;
-            } else if(newSelectionX == x && newSelectionY == y+1) {
-                nextDirection = Direction.DOWN;
-            }
-        }
+            var x:Int = mover.x;
+            var y:Int = mover.y;
+            var newDirectionList = directionList;
 
+            if(!mover.canMoveThrough(newSelectionX, newSelectionY)) {
+                return;
+            }
+
+            for(i in -1...directionList.length){
+                var lastDirection:Direction = Direction.STOP;
+                if(i >= 0){
+                    if(directionList[i] == Direction.LEFT){
+                        x--;
+                    } else if(directionList[i] == Direction.RIGHT){
+                        x++;
+                    } else if(directionList[i] == Direction.UP) {
+                        y--;
+                    } else if(directionList[i] == Direction.DOWN) {
+                        y++;
+                    }
+                    lastDirection = directionList[i];
+                }
+
+                if(newSelectionX == x && newSelectionY == y){
+                    newDirectionList = directionList.slice(0, i+1);
+                } else if(newSelectionX == x+1 && newSelectionY == y && i+2 <= movesLeft && lastDirection != Direction.LEFT) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.RIGHT);
+                } else if(newSelectionX == x-1 && newSelectionY == y && i+2 <= movesLeft && lastDirection != Direction.RIGHT) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.LEFT);
+                } else if(newSelectionX == x && newSelectionY == y-1 && i+2 <= movesLeft && lastDirection != Direction.DOWN) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.UP);
+                } else if(newSelectionX == x && newSelectionY == y+1 && i+2 <= movesLeft && lastDirection != Direction.UP) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.DOWN);
+                }
+            }
+            directionList = newDirectionList;
+            drawArrows();
+        }
         if(nextDirection != Direction.NONE){
+            var x:Int = mover.x;
+            var y:Int = mover.y;
+            var dx:Int = 0;
+            var dy:Int = 0;
+            var nextDirectionReverse = Directions.reverseDirection(nextDirection);
             if(nextDirection == Direction.LEFT){
-                x--;
+                dx--;
             } else if(nextDirection == Direction.RIGHT){
-                x++;
-            } else if(nextDirection == Direction.UP){
-                y--;
-            } else if(nextDirection == Direction.DOWN){
-                y++;
+                dx++;
+            } else if(nextDirection == Direction.UP) {
+                dy--;
+            } else if(nextDirection == Direction.DOWN) {
+                dy++;
             }
-            if(Directions.reverseDirection(nextDirection) == directionList[directionList.length - 1]){
-                directionList.pop();
-            } else if(directionList.length < movesLeft && mover.canMoveThrough(x, y)) {
-                directionList.push(nextDirection);
+            var newDirectionList = directionList;
+
+            for(i in -1...directionList.length){
+                var lastDirection:Direction = Direction.STOP;
+                if(i >= 0){
+                    if(directionList[i] == Direction.LEFT){
+                        x--;
+                    } else if(directionList[i] == Direction.RIGHT){
+                        x++;
+                    } else if(directionList[i] == Direction.UP) {
+                        y--;
+                    } else if(directionList[i] == Direction.DOWN) {
+                        y++;
+                    }
+                    lastDirection = directionList[i];
+                }
+
+                if(mover.canMoveThrough(x + dx, y + dy) && i+2 <= movesLeft && lastDirection != nextDirectionReverse){
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(nextDirection);
+                } else if(i >= 0 && lastDirection == nextDirectionReverse){
+                    newDirectionList = directionList.slice(0, i);
+                }
             }
+            
+            directionList = newDirectionList;
             drawArrows();
         }
         else if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.Z)
@@ -409,8 +464,9 @@ class KickControlMode extends ControlMode {
     public function new(theState:PlayState, theParent:ControlMode, theKicker:Striker){
         super(theState, theParent);
         kicker = theKicker;
-        destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
+        destinationSelector = new Selector(state._grid);
         destinationSelector.selectXY(kicker.x, kicker.y);
+        destinationSelector.color = FlxColor.YELLOW;
         state.add(destinationSelector);
     }
 
