@@ -38,14 +38,14 @@ class Level extends TiledMap {
                         game.addBall(ball);
                     case "Goals":
                         if(obj.name == "RED") {
-                            var x = Std.int(obj.x/Registry.GRID_SIZE)
-                            var y = Std.int(obj.y/Registry.GRID_SIZE)
-                            field[y*width + x] =  FieldType.RED_GOAL;
+                            var x = Std.int(obj.x/Registry.GRID_SIZE);
+                            var y = Std.int(obj.y/Registry.GRID_SIZE);
+                            game.field[y*width + x] =  Game.FieldType.RED_GOAL;
                         }
                         if(obj.name == "BLUE") {
-                            var x = Std.int(obj.x/Registry.GRID_SIZE)
-                            var y = Std.int(obj.y/Registry.GRID_SIZE)
-                            field[y*width + x] =  FieldType.BLUE_GOAL;
+                            var x = Std.int(obj.x/Registry.GRID_SIZE);
+                            var y = Std.int(obj.y/Registry.GRID_SIZE);
+                            game.field[y*width + x] =  Game.FieldType.BLUE_GOAL;
                         }
                 }
             }
