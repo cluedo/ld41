@@ -159,6 +159,11 @@ class Actor
         return new Array<Int>();
     }
 
+    public function canMoveThrough(nx:Int, ny:Int):Bool
+    {
+        return false;
+    }
+
     // dx and dy are always in the range [-1, 1]
     public function roll(dx:Int, dy:Int, power:Int)
     {
@@ -248,6 +253,19 @@ class Striker extends Actor
         return true;
     }
 
+    public override function canMoveThrough(nx:Int, ny:Int):Bool
+    {
+        var fieldType = game.getField(nx, ny);
+        if(fieldType != FieldType.FLOOR)
+            return false;
+
+        var actor = game.getActor(nx, ny);
+        if(actor != null && !Std.is(actor, Ball))
+            return false;
+        
+        return true;
+    }
+
     // assumes that dx and dy are in [-1, 1]
     public function canMove(dx:Int, dy:Int):Bool
     {
@@ -259,16 +277,7 @@ class Striker extends Actor
 
         var nx = x + dx;
         var ny = y + dy;
-
-        var fieldType = game.getField(nx, ny);
-        if(fieldType != FieldType.FLOOR)
-            return false;
-
-        var actor = game.getActor(nx, ny);
-        if(actor != null && !Std.is(actor, Ball))
-            return false;
-
-        return true;
+        return canMoveThrough(nx, ny);
     }
 
     public function kick(dx:Int, dy:Int):Bool
@@ -353,22 +362,12 @@ class Bruiser extends Striker
         super(x, y, team);
     }
 
-    // assumes that dx and dy are in [-1, 1]
-    public override function canMove(dx:Int, dy:Int):Bool
+    public override function canMoveThrough(nx:Int, ny:Int):Bool
     {
-        if(curMoves==0)
-            return false;
-
-        if(Math.abs(dx) + Math.abs(dy) != 1)
-            return false;
-
-        var nx = x + dx;
-        var ny = y + dy;
-
         var fieldType = game.getField(nx, ny);
         if(fieldType != FieldType.FLOOR)
             return false;
-
+        
         return true;
     }
 
