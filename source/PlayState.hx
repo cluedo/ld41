@@ -13,7 +13,6 @@ class PlayState extends FlxState
 	private var _level:Level;
     private var _levelFile:String;
     private var _grid:Grid;
-	private var _game:Game;
 
 	public var selectedSource:Int = -1;
 	public var selectedAction:Game.Action = Game.Action.NONE;
@@ -109,11 +108,9 @@ class PlayState extends FlxState
 			}
 		}
 
-		if(FlxG.keys.justPressed.ESCAPE)
+		if(FlxG.keys.justPressed.SPACE)
 		{
-			selectedSource = -1;
-			selectedAction = Game.Action.NONE;
-			selectedTarget = -1;
+			_level.game.endTurn();
 		}
 		
 	}

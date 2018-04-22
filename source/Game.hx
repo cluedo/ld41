@@ -79,6 +79,9 @@ class Game
     {
         actors[ny*width + nx] = a;
         actors[a.y*width + a.x] = null;
+
+        a.x = nx;
+        a.y = ny;
     }
 
     public function getActor(x:Int, y:Int):Actor
@@ -112,6 +115,17 @@ class Game
 
         return actor.takeAction(tx, ty, action);
     }
+
+    public function endTurn()
+    {
+        for(actor in actors)
+        {
+            if(actor!=null)
+                actor.endTurn();
+        }
+
+        turn++;
+    }
 }
 
 class Actor
@@ -133,6 +147,11 @@ class Actor
     {
         return false;
     }
+
+    public function endTurn()
+    {
+        return;
+    }
 }
 
 class Striker extends Actor
@@ -147,10 +166,14 @@ class Striker extends Actor
     public function new(x:Int, y:Int, team:Team)
     {
         super(x, y, team);
+        curMoves = numMoves;
+        curKicks = numKicks;
     }
 
     public function move(dx:Int, dy:Int):Bool
     {
+        if(curMoves==0)
+            return false;
         if(Math.abs(dx) + Math.abs(dy) != 1)
             return false;
 
@@ -166,9 +189,24 @@ class Striker extends Actor
             return false;
 
         game.moveActor(this, nx, ny);
-        x = nx;
-        y = ny;
+        curMoves--;
+        return true;
+    }
 
+    public function kick(dx:Int, dy:Int):Bool
+    {
+        if(curKicks == 0) return false;
+        if(Math.abs(dx)>1 || Math.abs(dy) > 1)
+            return false;
+        var target = game.getActor(x + dx, y + dy);
+        if(target == null)
+            return false;
+        if(!Std.is(target, Ball))
+            return false;
+        
+        var ball:Ball = cast target;
+        ball.move(dx, dy, kickPower);
+        curKicks--;
         return true;
     }
 
@@ -180,9 +218,18 @@ class Striker extends Actor
         switch(action){
             case Action.MOVE:
                 return move(dx, dy);
+            case Action.KICK:
+                return kick(dx, dy);
+
             default:
                 return false;
         }
+    }
+
+    public override function endTurn()
+    {
+        curKicks = numKicks;
+        curMoves = numMoves;
     }
 }
 
@@ -191,5 +238,29 @@ class Ball extends Actor
     public function new(x:Int, y:Int)
     {
         super(x, y, Team.NONE);
+    }
+
+    public function move(dx:Int, dy:Int, power:Int)
+    {
+        if(Math.abs(dx)>1 || Math.abs(dy) > 1)
+            return;
+        if(power==0)
+            return;
+        
+        var nx = x + dx;
+        var ny = y + dy;
+
+        var fieldType = game.getField(nx, ny);
+        if(fieldType != FieldType.FLOOR)
+            return;
+
+        var actor = game.getActor(nx, ny);
+        if(actor != null)
+            return;
+
+        game.moveActor(this, nx, ny);
+
+        move(dx, dy, power-1);
+        
     }
 }
