@@ -37,6 +37,9 @@ class Game
     public var blueTeam:Array<Actor>;
     public var ball:Ball;
 
+    public var redTeamScore:Int;
+    public var blueTeamScore:Int;
+
     public function new(width:Int, height:Int)
     {
         this.width = width;
@@ -52,6 +55,9 @@ class Game
 
         redTeam = new Array<Actor>();
         blueTeam = new Array<Actor>();
+
+        redTeamScore = 0;
+        blueTeamScore = 0;
 
         turn = 0;
     }
@@ -190,6 +196,7 @@ class Actor
             if(fieldType == FieldType.BLUE_GOAL)
             {
                 trace("red scored!");
+                game.redTeamScore = game.redTeamScore + 1;
                 _applauseSound.play();
                 game.moveActor(this, startX, startY);
                 return;
@@ -197,6 +204,7 @@ class Actor
             else if(fieldType == FieldType.RED_GOAL)
             {
                 trace("blue scored!");
+                game.blueTeamScore = game.blueTeamScore + 1;
                 _applauseSound.play();
                 game.moveActor(this, startX, startY);
                 return;
