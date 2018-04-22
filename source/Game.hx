@@ -130,8 +130,8 @@ class Game
         if(actor == null)
         {
             return false;
-        }else if((actor.team == Team.RED && turn%2==1) ||
-                 (actor.team == Team.BLUE && turn%2==0)){
+        } else if(!((actor.team == Team.RED && turn%2==0) ||
+                 (actor.team == Team.BLUE && turn%2==1))){
             return false;
         }
 

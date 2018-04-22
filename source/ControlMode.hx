@@ -43,8 +43,8 @@ class Selector extends FlxSprite
 {
     public var grid:Grid.Grid;
     public var selecting:Bool = false;
-    public var selectionX:Int = -1000;
-    public var selectionY:Int = -1000;
+    public var selectionX:Int = -1;
+    public var selectionY:Int = -1;
 
     public function new(grid:Grid, theColor:FlxColor)
     {
@@ -92,7 +92,7 @@ class Selector extends FlxSprite
 			selectSquare(newSelection);
 		}
         if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN){
-            if(selectionX == -1){
+            if(selectionX < 0){
                 selectXY(0, 0);
             } else {
                 if(FlxG.keys.justPressed.LEFT && selectionX > 0){
@@ -104,8 +104,8 @@ class Selector extends FlxSprite
                 } else if(FlxG.keys.justPressed.DOWN && selectionY < grid.gridHeight - 1){
                     selectXY(selectionX, selectionY + 1);
                 }
-                FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));
             }
+            FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));            
 		}
     }
 }
@@ -122,17 +122,17 @@ class SelectionControlMode extends ControlMode {
     override public function doInput(){
         sourceSelector.moveSelection();
 
-		if(sourceSelector.getSelectedSquare() >= 0)
-		{
-			if(FlxG.keys.justPressed.M)
-			{
-				state.currentControlMode = new MovementControlMode(state, this, sourceSelector.getSelectedSquare());
-			}
-			else if(FlxG.keys.justPressed.K)
-			{
-				state.currentControlMode = new KickControlMode(state, this, sourceSelector.getSelectedSquare());
-			}
-		}
+        var actor = state._level.game.getActor(sourceSelector.selectionX, sourceSelector.selectionY);
+        if(actor != null && ((actor.team == Game.Team.RED && state._level.game.turn%2==0) || (actor.team == Game.Team.BLUE && state._level.game.turn%2==1))){
+            if(FlxG.keys.justPressed.M)
+            {
+                state.currentControlMode = new MovementControlMode(state, this, sourceSelector.getSelectedSquare());
+            }
+            else if(FlxG.keys.justPressed.K)
+            {
+                state.currentControlMode = new KickControlMode(state, this, sourceSelector.getSelectedSquare());
+            }
+        }
 
 		if(FlxG.keys.justPressed.SPACE)
 		{
@@ -156,16 +156,17 @@ class MovementControlMode extends ControlMode {
 
     override public function doInput(){
         destinationSelector.moveSelection();
-        if(destinationSelector.getSelectedSquare() >= 0)
-		{
-			if(FlxG.keys.justPressed.M || FlxG.mouse.justPressed)
-			{
-				state._level.game.takeAction(sourceSquare, destinationSelector.getSelectedSquare(), Game.Action.MOVE);
-                state.remove(destinationSelector);
-                state.currentControlMode = parent;
+
+        if(FlxG.keys.justPressed.M || FlxG.mouse.justPressed)
+        {
+            state._level.game.takeAction(sourceSquare, destinationSelector.getSelectedSquare(), Game.Action.MOVE);
+            state.remove(destinationSelector);
+            state.currentControlMode = parent;
+            if(Std.is(parent, SelectionControlMode)){
                 cast(parent, SelectionControlMode).sourceSelector.selectSquare(destinationSelector.getSelectedSquare());
-			}
-		}
+            }
+        }
+
         scrollScreen();
     }
 }
@@ -184,15 +185,17 @@ class KickControlMode extends ControlMode {
 
     override public function doInput(){
         destinationSelector.moveSelection();
-        if(destinationSelector.getSelectedSquare() >= 0)
-		{
-			if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
-			{
-				state._level.game.takeAction(sourceSquare, destinationSelector.getSelectedSquare(), Game.Action.KICK);
-                state.remove(destinationSelector);
-                state.currentControlMode = parent;
-			}
-		}
+
+        if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
+        {
+            state._level.game.takeAction(sourceSquare, destinationSelector.getSelectedSquare(), Game.Action.KICK);
+            state.remove(destinationSelector);
+            state.currentControlMode = parent;
+            if(Std.is(parent, SelectionControlMode)){
+                cast(parent, SelectionControlMode).sourceSelector.selectSquare(destinationSelector.getSelectedSquare());
+            }
+        }
+
         scrollScreen();
     }
 }
