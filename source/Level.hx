@@ -33,6 +33,15 @@ class Level extends TiledMap {
                             var striker = new Game.Striker(Math.round(obj.x/Registry.GRID_SIZE), Math.round(obj.y/Registry.GRID_SIZE),Game.Team.BLUE);
                             game.addActor(striker);
                         }
+                    case "Bruisers":
+                        if(obj.name == "RED") {
+                            var bruiser = new Game.Bruiser(Math.round(obj.x/Registry.GRID_SIZE), Math.round(obj.y/Registry.GRID_SIZE),Game.Team.RED);
+                            game.addActor(bruiser);
+                        }
+                        if(obj.name == "BLUE") {
+                            var bruiser = new Game.Bruiser(Math.round(obj.x/Registry.GRID_SIZE), Math.round(obj.y/Registry.GRID_SIZE),Game.Team.BLUE);
+                            game.addActor(bruiser);
+                        }
                     case "Balls":
                         var ball = new Game.Ball(Std.int(obj.x/Registry.GRID_SIZE),Std.int(obj.y/Registry.GRID_SIZE));
                         game.addBall(ball);
