@@ -65,6 +65,10 @@ class Level extends TiledMap {
                             var y = Math.round(obj.y/Registry.GRID_SIZE);
                             game.field[y*width + x] =  Game.FieldType.BLUE_GOAL;
                         }
+                    case "Walls":
+                        var x = Math.round(obj.x/Registry.GRID_SIZE);
+                        var y = Math.round(obj.y/Registry.GRID_SIZE);
+                        game.field[y*width + x] =  Game.FieldType.WALL;
                 }
             }
         }
