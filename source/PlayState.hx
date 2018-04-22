@@ -112,7 +112,23 @@ class PlayState extends FlxState
 		{
 			_level.game.endTurn();
 		}
-		
+
+		if(FlxG.keys.pressed.W)
+		{
+			FlxG.camera.scroll.y -= 10;
+		}
+		if(FlxG.keys.pressed.A)
+		{
+			FlxG.camera.scroll.x -= 10;
+		}
+		if(FlxG.keys.pressed.S)
+		{
+			FlxG.camera.scroll.y += 10;
+		}
+		if(FlxG.keys.pressed.D)
+		{
+			FlxG.camera.scroll.x += 10;
+		}
 	}
 
 }
