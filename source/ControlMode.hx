@@ -99,10 +99,9 @@ class Selector extends FlxSprite
     public var selectionY:Int = -1;
     private var _selectSound:FlxSound;
 
-    public function new(grid:Grid, theColor:FlxColor)
+    public function new(grid:Grid)
     {
         this.grid = grid;
-        this.color = theColor;
         super(-1000, -1000);
         makeGraphic(Grid.CELL_WIDTH+1, 
                     Grid.CELL_HEIGHT+1, 
@@ -111,7 +110,7 @@ class Selector extends FlxSprite
                                Grid.CELL_WIDTH-1, 
                                Grid.CELL_HEIGHT-1, 
                                FlxColor.TRANSPARENT, 
-                               {color: theColor,
+                               {color: FlxColor.WHITE,
                                 thickness: 4});
 
         _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
@@ -180,7 +179,7 @@ class SelectionControlMode extends ControlMode {
     
     public function new(theState:PlayState, theParent:ControlMode){
         super(theState, theParent);
-        sourceSelector = new Selector(state._grid, FlxColor.RED);
+        sourceSelector = new Selector(state._grid);
         state.add(sourceSelector);
     }
 
@@ -404,8 +403,9 @@ class KickControlMode extends ControlMode {
     public function new(theState:PlayState, theParent:ControlMode, theKicker:Striker){
         super(theState, theParent);
         kicker = theKicker;
-        destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
+        destinationSelector = new Selector(state._grid);
         destinationSelector.selectXY(kicker.x, kicker.y);
+        destinationSelector.color = FlxColor.YELLOW;
         state.add(destinationSelector);
     }
 
