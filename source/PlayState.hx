@@ -39,8 +39,6 @@ class PlayState extends FlxState
 			add(object);
 		}
 
-		add(_grid.selector);
-
 		currentControlMode = new ControlMode.SelectionControlMode(this, null);
 		
 		super.create();
