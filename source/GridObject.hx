@@ -55,6 +55,13 @@ class GridPlayer extends GridObject
             else
                 loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
         }
+        else if(Std.is(actor, Game.SkaterBoy))
+        {
+            if(actor.team==Game.Team.RED)
+                loadGraphic(AssetPaths.red_skater_boy__png, false, 64, 64, true);
+            else
+                loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+        }
         else if(Std.is(actor, Game.Striker))
         {
             if(actor.team==Game.Team.RED)

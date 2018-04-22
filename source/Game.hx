@@ -398,44 +398,54 @@ class Bruiser extends Striker
         return true;
     }
 
-    public override function takeAction(tx:Int, ty:Int, action:Action):Bool
+
+}
+
+
+class SkaterBoy extends Striker
+{
+    public function new(x:Int, y:Int, team:Team)
     {
-        var dx = tx-x;
-        var dy = ty-y;
+        super(x, y, team);
 
-        switch(action){
-            case Action.MOVE:
-                return move(dx, dy);
-            case Action.KICK:
-                return kick(dx, dy);
-
-            default:
-                return false;
-        }
+        //TODO: probably shouldn't hardcode these here
+        numMoves = 2;
+        numKicks = 1;
+        kickPower = 4;
+        endTurn();
     }
 
-    public override function possibleActionTargetSquares(action:Action):Array<Int> {
-        var ret = new Array<Int>();
-        if (action == Action.MOVE) {
-            for (dx in -1...1)
-                for (dy in -1...1)
-                    if (canMove(dx, dy)) {
-                        var square = game.getSquare(x + dx, y + dy);
-                        ret.push(square);
-                    }
-        } else if (action == Action.KICK) {
-            // TODO: this will need to be changed when we change kick behavior
-            // In particular, we need to decide how to display highlighted squares if kicking is a "two step" process
-            // with selecting the ball and then selecting the square to kick it to.
-            for (dx in -1...1)
-                for (dy in -1...1)
-                    if (canKick(dx, dy)) {
-                        var square = game.getSquare(x + dx, y + dy);
-                        ret.push(square);
-                    }
-        }
-        return ret;
+    public override function canMoveThrough(nx:Int, ny:Int):Bool
+    {
+        var fieldType = game.getField(nx, ny);
+        if(fieldType != FieldType.FLOOR)
+            return false;
+
+        var actor = game.getActor(nx, ny);
+        if(actor != null)
+            return false;
+        
+        return true;
     }
+
+    public override function move(dx:Int, dy:Int):Bool
+    {
+        if (!canMove(dx, dy))
+            return false;
+
+        while(canMove(dx,dy))
+        {
+            var nx = x + dx;
+            var ny = y + dy;
+
+            game.moveActor(this, nx, ny);
+        }
+
+        curMoves--;
+        return true;
+    }
+
+
 }
 
 class Ball extends Actor
