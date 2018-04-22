@@ -60,7 +60,7 @@ class Selector extends FlxSprite
                                Grid.CELL_HEIGHT-1, 
                                FlxColor.TRANSPARENT, 
                                {color: theColor,
-                                thickness: 2});
+                                thickness: 4});
     }
     
     public function getSelectedSquare():Int {
@@ -134,6 +134,12 @@ class SelectionControlMode extends ControlMode {
     override public function doInput(){
         scrollScreen();
 
+        if(state._level.game.turn%2 == 0){
+            sourceSelector.color = FlxColor.RED;
+        } else {
+            sourceSelector.color = FlxColor.BLUE;
+        }
+
         if(sourceSelector.moveSelection()){
             return;
         }
@@ -182,7 +188,7 @@ class MovementControlMode extends ControlMode {
     public function new(theState:PlayState, theParent:ControlMode, theMover:Actor){
         super(theState, theParent);
         mover = theMover;
-        destinationSelector = new Selector(state._grid, FlxColor.BLUE);
+        destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
         destinationSelector.selectXY(mover.x, mover.y);
         state.add(destinationSelector);
     }
@@ -192,17 +198,20 @@ class MovementControlMode extends ControlMode {
 
         destinationSelector.moveSelection();
 
-        if(FlxG.keys.justPressed.M || FlxG.mouse.justPressed)
+        if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.Z || FlxG.mouse.justPressed)
         {
-            mover.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.MOVE);
-            state.remove(destinationSelector);
-            state.currentControlMode = parent;
-            if(Std.is(parent, SelectionControlMode)){
-                cast(parent, SelectionControlMode).sourceSelector.selectXY(mover.x, mover.y);
+            if(mover.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.MOVE)) {
+                state.remove(destinationSelector);
+                state.currentControlMode = parent;
+                state.topControlMode.sourceSelector.selectXY(mover.x, mover.y);
                 if(FlxG.keys.justPressed.M) {
-                    cast(parent, SelectionControlMode).sourceSelector.focusCamera();
+                    state.topControlMode.sourceSelector.focusCamera();
                 }
             }
+        } else if(FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.X) {
+            state.remove(destinationSelector);
+            state.currentControlMode = parent;
+            state.topControlMode.sourceSelector.focusCamera();
         }
     }
 }
@@ -215,7 +224,7 @@ class KickControlMode extends ControlMode {
     public function new(theState:PlayState, theParent:ControlMode, theKicker:Actor){
         super(theState, theParent);
         kicker = theKicker;
-        destinationSelector = new Selector(state._grid, FlxColor.BLUE);
+        destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
         destinationSelector.selectXY(kicker.x, kicker.y);
         state.add(destinationSelector);
     }
@@ -225,17 +234,20 @@ class KickControlMode extends ControlMode {
 
         destinationSelector.moveSelection();
 
-        if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
+        if(FlxG.keys.justPressed.K || FlxG.keys.justPressed.Z || FlxG.mouse.justPressed)
         {
-            kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.KICK);
-            state.remove(destinationSelector);
-            state.currentControlMode = parent;
-            if(Std.is(parent, SelectionControlMode)){
-                cast(parent, SelectionControlMode).sourceSelector.selectXY(kicker.x, kicker.y);
+            if(kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.KICK)) {
+                state.remove(destinationSelector);
+                state.currentControlMode = parent;
+                state.topControlMode.sourceSelector.selectXY(kicker.x, kicker.y);
                 if(FlxG.keys.justPressed.K) {
-                    cast(parent, SelectionControlMode).sourceSelector.focusCamera();
+                    state.topControlMode.sourceSelector.focusCamera();
                 }
             }
+        } else if(FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.X) {
+            state.remove(destinationSelector);
+            state.currentControlMode = parent;
+            state.topControlMode.sourceSelector.focusCamera();
         }
     }
 }

@@ -15,6 +15,7 @@ class PlayState extends FlxState
     public var _grid:Grid;
 
 	public var currentControlMode:ControlMode.ControlMode;
+	public var topControlMode:ControlMode.SelectionControlMode;
 	override public function create():Void
 	{	
 		bgColor = new FlxColor(0xff303030);
@@ -37,7 +38,8 @@ class PlayState extends FlxState
 			add(object);
 		}
 
-		currentControlMode = new ControlMode.SelectionControlMode(this, null);
+		topControlMode = new ControlMode.SelectionControlMode(this, null);
+		currentControlMode = topControlMode;
 		
 		if(FlxG.camera.width < Grid.CELL_WIDTH * _grid.gridWidth) {
 			FlxG.camera.minScrollX = Grid.CELL_WIDTH/2 - FlxG.camera.width/2;
