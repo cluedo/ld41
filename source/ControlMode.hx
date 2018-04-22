@@ -192,15 +192,20 @@ class MovementControlMode extends ControlMode {
 
         destinationSelector.moveSelection();
 
-        if(FlxG.keys.justPressed.M || FlxG.mouse.justPressed)
+        if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.Z || FlxG.mouse.justPressed)
         {
-            mover.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.MOVE);
+            if(mover.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.MOVE)) {
+                state.remove(destinationSelector);
+                state.currentControlMode = parent;
+                state.topControlMode.sourceSelector.selectXY(mover.x, mover.y);
+                if(FlxG.keys.justPressed.M) {
+                    state.topControlMode.sourceSelector.focusCamera();
+                }
+            }
+        } else if(FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.X) {
             state.remove(destinationSelector);
             state.currentControlMode = parent;
-            state.topControlMode.sourceSelector.selectXY(mover.x, mover.y);
-            if(FlxG.keys.justPressed.M) {
-                state.topControlMode.sourceSelector.focusCamera();
-            }
+            state.topControlMode.sourceSelector.focusCamera();
         }
     }
 }
@@ -223,15 +228,20 @@ class KickControlMode extends ControlMode {
 
         destinationSelector.moveSelection();
 
-        if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
+        if(FlxG.keys.justPressed.K || FlxG.keys.justPressed.Z || FlxG.mouse.justPressed)
         {
-            kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.KICK);
+            if(kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.KICK)) {
+                state.remove(destinationSelector);
+                state.currentControlMode = parent;
+                state.topControlMode.sourceSelector.selectXY(kicker.x, kicker.y);
+                if(FlxG.keys.justPressed.K) {
+                    state.topControlMode.sourceSelector.focusCamera();
+                }
+            }
+        } else if(FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.X) {
             state.remove(destinationSelector);
             state.currentControlMode = parent;
-            state.topControlMode.sourceSelector.selectXY(kicker.x, kicker.y);
-            if(FlxG.keys.justPressed.K) {
-                state.topControlMode.sourceSelector.focusCamera();
-            }
+            state.topControlMode.sourceSelector.focusCamera();
         }
     }
 }
