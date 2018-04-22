@@ -47,9 +47,21 @@ class GridPlayer extends GridObject
     public function new(grid:Grid, actor:Game.Actor)
     {
         super(grid, actor);
-        if(actor.team==Game.Team.RED)
-            loadGraphic(AssetPaths.basic_red_player1__png, false, 64, 64, true);
-        else
-            loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+        
+        if(Std.is(actor, Game.Bruiser))
+        {
+            if(actor.team==Game.Team.RED)
+                loadGraphic(AssetPaths.red_bruiser__png, false, 64, 64, true);
+            else
+                loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+        }
+        else if(Std.is(actor, Game.Striker))
+        {
+            if(actor.team==Game.Team.RED)
+                loadGraphic(AssetPaths.basic_red_player1__png, false, 64, 64, true);
+            else
+                loadGraphic(AssetPaths.blue_placeholder__png, false, 64, 64, true);
+        }
+        
     }
 }
