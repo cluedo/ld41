@@ -216,9 +216,9 @@ class Actor
 
 class Striker extends Actor
 {
-    public var numMoves:Int = 3;
-    public var numKicks:Int = 1;
-    public var kickPower:Int = 3;
+    public var numMoves:Int;
+    public var numKicks:Int;
+    public var kickPower:Int;
 
     public var curMoves:Int;
     public var curKicks:Int;
@@ -226,8 +226,12 @@ class Striker extends Actor
     public function new(x:Int, y:Int, team:Team)
     {
         super(x, y, team);
-        curMoves = numMoves;
-        curKicks = numKicks;
+        
+        numMoves = 3;
+        numKicks = 1;
+        kickPower = 3;
+
+        endTurn();
     }
 
     public function move(dx:Int, dy:Int):Bool
@@ -355,11 +359,12 @@ class Bruiser extends Striker
 {
     public function new(x:Int, y:Int, team:Team)
     {
+        super(x, y, team);
         numMoves = 2;
         numKicks = 3;
-        kickPower = 1;
+        kickPower = 3;
 
-        super(x, y, team);
+        endTurn();
     }
 
     public override function canMoveThrough(nx:Int, ny:Int):Bool
@@ -430,12 +435,6 @@ class Bruiser extends Striker
                     }
         }
         return ret;
-    }
-
-    public override function endTurn()
-    {
-        curKicks = numKicks;
-        curMoves = numMoves;
     }
 }
 
