@@ -199,7 +199,9 @@ class MovementControlMode extends ControlMode {
             state.currentControlMode = parent;
             if(Std.is(parent, SelectionControlMode)){
                 cast(parent, SelectionControlMode).sourceSelector.selectXY(mover.x, mover.y);
-                cast(parent, SelectionControlMode).sourceSelector.focusCamera();
+                if(FlxG.keys.justPressed.M) {
+                    cast(parent, SelectionControlMode).sourceSelector.focusCamera();
+                }
             }
         }
     }
@@ -230,7 +232,9 @@ class KickControlMode extends ControlMode {
             state.currentControlMode = parent;
             if(Std.is(parent, SelectionControlMode)){
                 cast(parent, SelectionControlMode).sourceSelector.selectXY(kicker.x, kicker.y);
-                cast(parent, SelectionControlMode).sourceSelector.focusCamera();
+                if(FlxG.keys.justPressed.K) {
+                    cast(parent, SelectionControlMode).sourceSelector.focusCamera();
+                }
             }
         }
     }
