@@ -83,7 +83,11 @@ class Selector extends FlxSprite
         y = grid.y + selectionY*Grid.CELL_HEIGHT;
     }
 
-    public function moveSelection() { // Move the selection according to keyboard and mouse input
+    public function focusCamera(){
+        FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));
+    }
+
+    public function moveSelection():Bool{ // Move the selection according to keyboard and mouse input
         if(FlxG.mouse.justPressed)
 		{
 			var dx = FlxG.mouse.x - grid.x;
@@ -91,6 +95,7 @@ class Selector extends FlxSprite
 
 			var newSelection = grid.getSquare(dx, dy);
 			selectSquare(newSelection);
+            return true;
 		}
         if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN){
             if(selectionX < 0){
@@ -106,8 +111,10 @@ class Selector extends FlxSprite
                     selectXY(selectionX, selectionY + 1);
                 }
             }
-            FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));            
+            focusCamera();
+            return true;
 		}
+        return false;
     }
 }
 
@@ -120,11 +127,34 @@ class SelectionControlMode extends ControlMode {
         state.add(sourceSelector);
     }
 
+    public function selectable(actor:Actor):Bool{
+        return actor != null && ((actor.team == Game.Team.RED && state._level.game.turn%2==0) || (actor.team == Game.Team.BLUE && state._level.game.turn%2==1));
+    }
+
     override public function doInput(){
-        sourceSelector.moveSelection();
+        scrollScreen();
+
+        if(sourceSelector.moveSelection()){
+            return;
+        }
+
+        if(FlxG.keys.justPressed.TAB){
+            var sourceSquare = sourceSelector.getSelectedSquare() + 1;
+            for(i in 0...state._grid.gridWidth*state._grid.gridHeight){
+                var checkX = (sourceSquare + i) % state._grid.gridWidth;
+                var checkY = Math.floor((sourceSquare + i)/state._grid.gridWidth) % state._grid.gridHeight;
+                var checkActor:Actor = state._level.game.getActor(checkX, checkY);
+                if(selectable(checkActor)) {
+                    sourceSelector.selectXY(checkX, checkY);
+                    sourceSelector.focusCamera();
+                    return;
+                }
+            }
+            return;
+        }
 
         var actor:Actor = state._level.game.getActor(sourceSelector.selectionX, sourceSelector.selectionY);
-        if(actor != null && ((actor.team == Game.Team.RED && state._level.game.turn%2==0) || (actor.team == Game.Team.BLUE && state._level.game.turn%2==1))){
+        if(selectable(actor)){
             if(FlxG.keys.justPressed.M)
             {
                 state.currentControlMode = new MovementControlMode(state, this, actor);
@@ -133,13 +163,13 @@ class SelectionControlMode extends ControlMode {
             {
                 state.currentControlMode = new KickControlMode(state, this, actor);
             }
+            return;
         }
 
 		if(FlxG.keys.justPressed.SPACE)
 		{
 			state._level.game.endTurn();
 		}
-        scrollScreen();
     }
 }
 
@@ -157,7 +187,11 @@ class MovementControlMode extends ControlMode {
     }
 
     override public function doInput(){
-        destinationSelector.moveSelection();
+        scrollScreen();
+
+        if(destinationSelector.moveSelection()){
+            return;
+        }
 
         if(FlxG.keys.justPressed.M || FlxG.mouse.justPressed)
         {
@@ -168,8 +202,6 @@ class MovementControlMode extends ControlMode {
                 cast(parent, SelectionControlMode).sourceSelector.selectSquare(destinationSelector.getSelectedSquare());
             }
         }
-
-        scrollScreen();
     }
 }
 
@@ -187,7 +219,11 @@ class KickControlMode extends ControlMode {
     }
 
     override public function doInput(){
-        destinationSelector.moveSelection();
+        scrollScreen();
+
+        if(destinationSelector.moveSelection()){
+            return;
+        }
 
         if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
         {
@@ -198,7 +234,5 @@ class KickControlMode extends ControlMode {
                 cast(parent, SelectionControlMode).sourceSelector.selectSquare(destinationSelector.getSelectedSquare());
             }
         }
-
-        scrollScreen();
     }
 }
