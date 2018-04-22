@@ -163,6 +163,7 @@ class MovementControlMode extends ControlMode {
 				state._level.game.takeAction(sourceSquare, destinationSelector.getSelectedSquare(), Game.Action.MOVE);
                 state.remove(destinationSelector);
                 state.currentControlMode = parent;
+                cast(parent, SelectionControlMode).sourceSelector.selectSquare(destinationSelector.getSelectedSquare());
 			}
 		}
         scrollScreen();
