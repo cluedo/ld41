@@ -197,11 +197,9 @@ class MovementControlMode extends ControlMode {
             mover.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.MOVE);
             state.remove(destinationSelector);
             state.currentControlMode = parent;
-            if(Std.is(parent, SelectionControlMode)){
-                cast(parent, SelectionControlMode).sourceSelector.selectXY(mover.x, mover.y);
-                if(FlxG.keys.justPressed.M) {
-                    cast(parent, SelectionControlMode).sourceSelector.focusCamera();
-                }
+            state.topControlMode.sourceSelector.selectXY(mover.x, mover.y);
+            if(FlxG.keys.justPressed.M) {
+                state.topControlMode.sourceSelector.focusCamera();
             }
         }
     }
@@ -230,11 +228,9 @@ class KickControlMode extends ControlMode {
             kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.KICK);
             state.remove(destinationSelector);
             state.currentControlMode = parent;
-            if(Std.is(parent, SelectionControlMode)){
-                cast(parent, SelectionControlMode).sourceSelector.selectXY(kicker.x, kicker.y);
-                if(FlxG.keys.justPressed.K) {
-                    cast(parent, SelectionControlMode).sourceSelector.focusCamera();
-                }
+            state.topControlMode.sourceSelector.selectXY(kicker.x, kicker.y);
+            if(FlxG.keys.justPressed.K) {
+                state.topControlMode.sourceSelector.focusCamera();
             }
         }
     }
