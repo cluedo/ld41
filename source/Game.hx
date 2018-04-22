@@ -1,6 +1,8 @@
 package;
 
 import haxe.ds.Vector;
+import flixel.system.FlxSound;
+import flixel.FlxG;
 
 enum FieldType{
     FLOOR;
@@ -142,12 +144,18 @@ class Actor
     var startY:Int;
 
     public var canScore:Bool = false;
+    private var _kickSound:FlxSound;
+    private var _applauseSound:FlxSound;
 
     public function new(x:Int, y:Int, team:Team)
     {
         this.x = x;
         this.y = y;
+        this.startX = x;
+        this.startY = y;
         this.team = team;
+        _kickSound = FlxG.sound.load(AssetPaths.kick__wav);
+        _applauseSound = FlxG.sound.load(AssetPaths.applause__wav);
     }
 
     public function takeAction(tx:Int, ty:Int, action:Action):Bool
@@ -182,14 +190,14 @@ class Actor
             if(fieldType == FieldType.BLUE_GOAL)
             {
                 trace("red scored!");
-                
+                _applauseSound.play();
                 game.moveActor(this, startX, startY);
                 return;
             }
             else if(fieldType == FieldType.RED_GOAL)
             {
                 trace("blue scored!");
-
+                _applauseSound.play();
                 game.moveActor(this, startX, startY);
                 return;
             }
@@ -206,6 +214,11 @@ class Actor
             roll(dx, dy, power-1);
         }
         
+    }
+
+    public function hasMoves():Bool
+    {
+        return false;
     }
 
     public function endTurn()
@@ -284,6 +297,11 @@ class Striker extends Actor
         return canMoveThrough(nx, ny);
     }
 
+    public override function hasMoves():Bool
+    {
+        return curMoves>0;
+    }
+
     public function kick(dx:Int, dy:Int):Bool
     {
         if (!canKick(dx, dy))
@@ -293,6 +311,7 @@ class Striker extends Actor
         var ball:Ball = cast target;
         ball.roll(dx, dy, kickPower);
         curKicks--;
+        _kickSound.play();
         return true;
     }
 
