@@ -200,7 +200,8 @@ class MovementControlMode extends ControlMode {
             state.remove(destinationSelector);
             state.currentControlMode = parent;
             if(Std.is(parent, SelectionControlMode)){
-                cast(parent, SelectionControlMode).sourceSelector.selectSquare(destinationSelector.getSelectedSquare());
+                cast(parent, SelectionControlMode).sourceSelector.selectXY(mover.x, mover.y);
+                cast(parent, SelectionControlMode).sourceSelector.focusCamera();
             }
         }
     }
@@ -232,7 +233,8 @@ class KickControlMode extends ControlMode {
             state.remove(destinationSelector);
             state.currentControlMode = parent;
             if(Std.is(parent, SelectionControlMode)){
-                cast(parent, SelectionControlMode).sourceSelector.selectSquare(destinationSelector.getSelectedSquare());
+                cast(parent, SelectionControlMode).sourceSelector.selectXY(kicker.x, kicker.y);
+                cast(parent, SelectionControlMode).sourceSelector.focusCamera();
             }
         }
     }
