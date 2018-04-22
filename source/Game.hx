@@ -84,6 +84,23 @@ class Game
         a.y = ny;
     }
 
+    public function swapActors(a1:Actor, a2:Actor)
+    {
+        var x1 = a1.x;
+        var y1 = a1.y;
+        var x2 = a2.x;
+        var y2 = a2.y;
+
+        actors[y2*width + x2] = a1;
+        actors[y1*width + x1] = a2;
+
+        a1.x = x2;
+        a1.y = y2;
+        
+        a2.x = x1;
+        a2.y = y1;
+    }
+
     public function getSquare(x:Int, y:Int):Int
     {
         return y*width + x;
@@ -186,7 +203,18 @@ class Striker extends Actor
 
         var nx = x + dx;
         var ny = y + dy;
-        game.moveActor(this, nx, ny);
+
+        // swap striker with ball if move into ball.
+        var actor = game.getActor(nx, ny);
+        if(actor == null){
+            game.moveActor(this, nx, ny);
+        }
+        else
+        {
+            // swap striker with actor (ball).
+            game.swapActors(this, actor);
+        }
+
         curMoves--;
         return true;
     }
@@ -208,7 +236,7 @@ class Striker extends Actor
             return false;
 
         var actor = game.getActor(nx, ny);
-        if(actor != null)
+        if(actor != null && !Std.is(actor, Ball))
             return false;
 
         return true;

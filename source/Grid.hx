@@ -18,7 +18,6 @@ class Grid extends FlxSprite
 
     public var gridTiles:Array<GridTile>;
     public var gridObjects:Array<GridObject>;
-    public var selector:Selector;
 
     public function new(width:Int, height:Int, ?X:Float=0, ?Y:Float=0)
     {
@@ -42,7 +41,6 @@ class Grid extends FlxSprite
             FlxSpriteUtil.drawLine(this, 0, y*CELL_HEIGHT, gridWidth*CELL_WIDTH, y*CELL_HEIGHT, {thickness: 3});
         }
 
-        selector = new Selector(this);
     }
 
     public static function fromGame(game:Game):Grid
@@ -84,32 +82,4 @@ class Grid extends FlxSprite
         return y*gridWidth + x;
     }
 
-
-}
-
-class Selector extends FlxSprite
-{
-    public var grid:Grid;
-    public var selecting:Bool = false;
-
-    public function new(grid: Grid)
-    {
-        this.grid = grid;
-        super(-1000, -1000);
-        makeGraphic(Grid.CELL_WIDTH+1, 
-                    Grid.CELL_HEIGHT+1, 
-                    FlxColor.TRANSPARENT, true);
-        FlxSpriteUtil.drawRect(this, 1,1, 
-                               Grid.CELL_WIDTH-1, 
-                               Grid.CELL_HEIGHT-1, 
-                               FlxColor.TRANSPARENT, 
-                               {color: FlxColor.RED,
-                                thickness: 2});
-    }
-
-    public function select(square:Int)
-    {
-        x = grid.x + (square%grid.gridWidth)*Grid.CELL_WIDTH;
-        y = grid.y + Std.int(square/grid.gridWidth)*Grid.CELL_HEIGHT;
-    }
 }
