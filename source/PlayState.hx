@@ -113,19 +113,19 @@ class PlayState extends FlxState
 			_level.game.endTurn();
 		}
 
-		if(FlxG.keys.pressed.W)
+		if(FlxG.keys.pressed.W || FlxG.mouse.screenY < 20)
 		{
 			FlxG.camera.scroll.y -= 10;
 		}
-		if(FlxG.keys.pressed.A)
+		if(FlxG.keys.pressed.A || FlxG.mouse.screenX < 20)
 		{
 			FlxG.camera.scroll.x -= 10;
 		}
-		if(FlxG.keys.pressed.S)
+		if(FlxG.keys.pressed.S || FlxG.mouse.screenY > 580)
 		{
 			FlxG.camera.scroll.y += 10;
 		}
-		if(FlxG.keys.pressed.D)
+		if(FlxG.keys.pressed.D || FlxG.mouse.screenX > 780)
 		{
 			FlxG.camera.scroll.x += 10;
 		}
