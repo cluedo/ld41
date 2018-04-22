@@ -118,26 +118,6 @@ class Game
         return field[y*width + x];
     }
 
-    public function takeAction(source:Int, target:Int, action:Action):Bool
-    {
-        var sx = source%width;
-        var sy = Std.int(source/width);
-
-        var tx = target%width;
-        var ty = Std.int(target/width);
-        
-        var actor = getActor(sx, sy);
-        if(actor == null)
-        {
-            return false;
-        } else if(!((actor.team == Team.RED && turn%2==0) ||
-                 (actor.team == Team.BLUE && turn%2==1))){
-            return false;
-        }
-
-        return actor.takeAction(tx, ty, action);
-    }
-
     public function endTurn()
     {
         for(actor in actors)

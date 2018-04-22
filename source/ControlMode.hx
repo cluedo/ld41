@@ -191,7 +191,7 @@ class KickControlMode extends ControlMode {
 
         if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
         {
-            kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.MOVE);
+            kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.KICK);
             state.remove(destinationSelector);
             state.currentControlMode = parent;
             if(Std.is(parent, SelectionControlMode)){
