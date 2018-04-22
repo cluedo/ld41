@@ -60,7 +60,7 @@ class Selector extends FlxSprite
                                Grid.CELL_HEIGHT-1, 
                                FlxColor.TRANSPARENT, 
                                {color: theColor,
-                                thickness: 2});
+                                thickness: 4});
     }
     
     public function getSelectedSquare():Int {
@@ -134,6 +134,12 @@ class SelectionControlMode extends ControlMode {
     override public function doInput(){
         scrollScreen();
 
+        if(state._level.game.turn%2 == 0){
+            sourceSelector.color = FlxColor.RED;
+        } else {
+            sourceSelector.color = FlxColor.BLUE;
+        }
+
         if(sourceSelector.moveSelection()){
             return;
         }
@@ -182,7 +188,7 @@ class MovementControlMode extends ControlMode {
     public function new(theState:PlayState, theParent:ControlMode, theMover:Actor){
         super(theState, theParent);
         mover = theMover;
-        destinationSelector = new Selector(state._grid, FlxColor.BLUE);
+        destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
         destinationSelector.selectXY(mover.x, mover.y);
         state.add(destinationSelector);
     }
@@ -218,7 +224,7 @@ class KickControlMode extends ControlMode {
     public function new(theState:PlayState, theParent:ControlMode, theKicker:Actor){
         super(theState, theParent);
         kicker = theKicker;
-        destinationSelector = new Selector(state._grid, FlxColor.BLUE);
+        destinationSelector = new Selector(state._grid, FlxColor.YELLOW);
         destinationSelector.selectXY(kicker.x, kicker.y);
         state.add(destinationSelector);
     }
