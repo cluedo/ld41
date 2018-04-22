@@ -36,6 +36,17 @@ class Level extends TiledMap {
                     case "Balls":
                         var ball = new Game.Ball(Std.int(obj.x/Registry.GRID_SIZE),Std.int(obj.y/Registry.GRID_SIZE));
                         game.addBall(ball);
+                    case "Goals":
+                        if(obj.name == "RED") {
+                            var x = Std.int(obj.x/Registry.GRID_SIZE)
+                            var y = Std.int(obj.y/Registry.GRID_SIZE)
+                            field[y*width + x] =  FieldType.RED_GOAL;
+                        }
+                        if(obj.name == "BLUE") {
+                            var x = Std.int(obj.x/Registry.GRID_SIZE)
+                            var y = Std.int(obj.y/Registry.GRID_SIZE)
+                            field[y*width + x] =  FieldType.BLUE_GOAL;
+                        }
                 }
             }
         }
