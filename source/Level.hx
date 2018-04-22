@@ -26,11 +26,11 @@ class Level extends TiledMap {
                 switch(objectLayer.name) {
                     case "Strikers":
                         if(obj.name == "RED") {
-                            var striker = new Game.Striker(Std.int(obj.x/Registry.GRID_SIZE),Std.int(obj.y/Registry.GRID_SIZE),Game.Team.RED);
+                            var striker = new Game.Striker(Math.round(obj.x/Registry.GRID_SIZE), Math.round(obj.y/Registry.GRID_SIZE),Game.Team.RED);
                             game.addActor(striker);
                         }
                         if(obj.name == "BLUE") {
-                            var striker = new Game.Striker(Std.int(obj.x/Registry.GRID_SIZE),Std.int(obj.y/Registry.GRID_SIZE),Game.Team.BLUE);
+                            var striker = new Game.Striker(Math.round(obj.x/Registry.GRID_SIZE), Math.round(obj.y/Registry.GRID_SIZE),Game.Team.BLUE);
                             game.addActor(striker);
                         }
                     case "Balls":

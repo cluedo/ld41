@@ -84,6 +84,11 @@ class Game
         a.y = ny;
     }
 
+    public function getSquare(x:Int, y:Int):Int
+    {
+        return y*width + x;
+    }
+
     public function getActor(x:Int, y:Int):Actor
     {
         if(x<0 || x>=width || y<0 || y>= height) return null;
@@ -148,6 +153,10 @@ class Actor
         return false;
     }
 
+    public function possibleActionTargetSquares(action:Action):Array<Int> {
+        return new Array<Int>();
+    }
+
     public function endTurn()
     {
         return;
@@ -172,8 +181,22 @@ class Striker extends Actor
 
     public function move(dx:Int, dy:Int):Bool
     {
+        if (!canMove(dx, dy))
+            return false;
+
+        var nx = x + dx;
+        var ny = y + dy;
+        game.moveActor(this, nx, ny);
+        curMoves--;
+        return true;
+    }
+
+    // assumes that dx and dy are in [-1, 1]
+    public function canMove(dx:Int, dy:Int):Bool
+    {
         if(curMoves==0)
             return false;
+
         if(Math.abs(dx) + Math.abs(dy) != 1)
             return false;
 
@@ -188,13 +211,22 @@ class Striker extends Actor
         if(actor != null)
             return false;
 
-        game.moveActor(this, nx, ny);
-        curMoves--;
         return true;
     }
 
     public function kick(dx:Int, dy:Int):Bool
     {
+        if (!canKick(dx, dy))
+            return false;
+    
+        var target = game.getActor(x + dx, y + dy);    
+        var ball:Ball = cast target;
+        ball.move(dx, dy, kickPower);
+        curKicks--;
+        return true;
+    }
+
+    public function canKick(dx:Int, dy:Int):Bool {
         if(curKicks == 0) return false;
         if(Math.abs(dx)>1 || Math.abs(dy) > 1)
             return false;
@@ -203,10 +235,7 @@ class Striker extends Actor
             return false;
         if(!Std.is(target, Ball))
             return false;
-        
-        var ball:Ball = cast target;
-        ball.move(dx, dy, kickPower);
-        curKicks--;
+
         return true;
     }
 
@@ -224,6 +253,29 @@ class Striker extends Actor
             default:
                 return false;
         }
+    }
+
+    public override function possibleActionTargetSquares(action:Action):Array<Int> {
+        var ret = new Array<Int>();
+        if (action == Action.MOVE) {
+            for (dx in -1...1)
+                for (dy in -1...1)
+                    if (canMove(dx, dy)) {
+                        var square = game.getSquare(x + dx, y + dy);
+                        ret.push(square);
+                    }
+        } else if (action == Action.KICK) {
+            // TODO: this will need to be changed when we change kick behavior
+            // In particular, we need to decide how to display highlighted squares if kicking is a "two step" process
+            // with selecting the ball and then selecting the square to kick it to.
+            for (dx in -1...1)
+                for (dy in -1...1)
+                    if (canKick(dx, dy)) {
+                        var square = game.getSquare(x + dx, y + dy);
+                        ret.push(square);
+                    }
+        }
+        return ret;
     }
 
     public override function endTurn()
@@ -245,6 +297,7 @@ class Ball extends Actor
         super(x, y, Team.NONE);
     }
 
+    // dx and dy are always in the range [-1, 1]
     public function move(dx:Int, dy:Int, power:Int)
     {
         if(Math.abs(dx)>1 || Math.abs(dy) > 1)

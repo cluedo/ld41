@@ -4,6 +4,7 @@ class Registry
 {
     public static var GRID_SIZE = 64;
     public static var levelList:Array<String> = [
+        AssetPaths.crazy_level__tmx,
         AssetPaths.real_soccer__tmx,
         AssetPaths.trivial_level__tmx,];
     public static var currLevel:Int = 0; 
