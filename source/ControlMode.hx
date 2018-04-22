@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxPoint;
@@ -46,6 +47,7 @@ class Selector extends FlxSprite
     public var selecting:Bool = false;
     public var selectionX:Int = -1;
     public var selectionY:Int = -1;
+    private var _selectSound:FlxSound;
 
     public function new(grid:Grid, theColor:FlxColor)
     {
@@ -61,6 +63,9 @@ class Selector extends FlxSprite
                                FlxColor.TRANSPARENT, 
                                {color: theColor,
                                 thickness: 4});
+
+        _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
+        _selectSound.play();
     }
     
     public function getSelectedSquare():Int {
@@ -73,6 +78,7 @@ class Selector extends FlxSprite
         this.selectionY = selectionY;
         x = grid.x + selectionX*Grid.CELL_WIDTH;
         y = grid.y + selectionY*Grid.CELL_HEIGHT;
+        _selectSound.play();
     }
 
     public function selectSquare(square:Int)
@@ -81,6 +87,7 @@ class Selector extends FlxSprite
         this.selectionY = Math.floor(square / grid.gridWidth);
         x = grid.x + selectionX*Grid.CELL_WIDTH;
         y = grid.y + selectionY*Grid.CELL_HEIGHT;
+        _selectSound.play();
     }
 
     public function focusCamera(){
