@@ -11,10 +11,12 @@ import Game.Actor;
 class ControlMode {
     public var parent:ControlMode = null;
     public var state:PlayState;
-    
+    private var _badSelectionSound:FlxSound;
+
     public function new(theState:PlayState, theParent:ControlMode){
         state = theState;
         parent = theParent;
+        _badSelectionSound = FlxG.sound.load(AssetPaths.badSelect__wav, 0.3);
     }
 
     public function doInput() {
@@ -168,10 +170,14 @@ class SelectionControlMode extends ControlMode {
 
         var actor:Actor = state._level.game.getActor(sourceSelector.selectionX, sourceSelector.selectionY);
         if(selectable(actor)){
-            if(FlxG.keys.justPressed.M)
+            if(FlxG.keys.justPressed.M && actor.hasMoves())
             {
                 state.currentControlMode = new MovementControlMode(state, this, actor);
                 return;
+            }
+            if(FlxG.keys.justPressed.M && !actor.hasMoves())
+            {
+                _badSelectionSound.play();
             }
             else if(FlxG.keys.justPressed.K)
             {

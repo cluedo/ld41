@@ -208,6 +208,11 @@ class Actor
         
     }
 
+    public function hasMoves():Bool
+    {
+        return false;
+    }
+
     public function endTurn()
     {
         return;
@@ -282,6 +287,11 @@ class Striker extends Actor
         var nx = x + dx;
         var ny = y + dy;
         return canMoveThrough(nx, ny);
+    }
+
+    public override function hasMoves():Bool
+    {
+        return curMoves>0;
     }
 
     public function kick(dx:Int, dy:Int):Bool
