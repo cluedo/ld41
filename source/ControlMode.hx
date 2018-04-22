@@ -158,12 +158,13 @@ class SelectionControlMode extends ControlMode {
             if(FlxG.keys.justPressed.M)
             {
                 state.currentControlMode = new MovementControlMode(state, this, actor);
+                return;
             }
             else if(FlxG.keys.justPressed.K)
             {
                 state.currentControlMode = new KickControlMode(state, this, actor);
+                return;
             }
-            return;
         }
 
 		if(FlxG.keys.justPressed.SPACE)
