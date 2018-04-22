@@ -324,8 +324,7 @@ class MovementControlMode extends ControlMode {
         scrollScreen();
         
         var nextDirection:Direction = Directions.lastDirectionPressed();
-        var x:Int = currentX();
-        var y:Int = currentY();
+        
         
         if(nextDirection == Direction.NONE && FlxG.mouse.justPressed) {
             var dx = FlxG.mouse.x - state._grid.x;
@@ -335,32 +334,89 @@ class MovementControlMode extends ControlMode {
             var newSelectionX:Int = newSelection % state._grid.gridWidth;
             var newSelectionY:Int = Math.floor(newSelection/state._grid.gridWidth);
 
-            if(newSelectionX == x+1 && newSelectionY == y) {
-                nextDirection = Direction.RIGHT;
-            } else if(newSelectionX == x-1 && newSelectionY == y) {
-                nextDirection = Direction.LEFT;
-            } else if(newSelectionX == x && newSelectionY == y-1) {
-                nextDirection = Direction.UP;
-            } else if(newSelectionX == x && newSelectionY == y+1) {
-                nextDirection = Direction.DOWN;
-            }
-        }
+            var x:Int = mover.x;
+            var y:Int = mover.y;
+            var newDirectionList = directionList;
 
+            if(!mover.canMoveThrough(newSelectionX, newSelectionY)) {
+                return;
+            }
+
+            for(i in -1...directionList.length){
+                var lastDirection:Direction = Direction.STOP;
+                if(i >= 0){
+                    if(directionList[i] == Direction.LEFT){
+                        x--;
+                    } else if(directionList[i] == Direction.RIGHT){
+                        x++;
+                    } else if(directionList[i] == Direction.UP) {
+                        y--;
+                    } else if(directionList[i] == Direction.DOWN) {
+                        y++;
+                    }
+                    lastDirection = directionList[i];
+                }
+
+                if(newSelectionX == x && newSelectionY == y){
+                    newDirectionList = directionList.slice(0, i+1);
+                } else if(newSelectionX == x+1 && newSelectionY == y && i+2 <= movesLeft && lastDirection != Direction.LEFT) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.RIGHT);
+                } else if(newSelectionX == x-1 && newSelectionY == y && i+2 <= movesLeft && lastDirection != Direction.RIGHT) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.LEFT);
+                } else if(newSelectionX == x && newSelectionY == y-1 && i+2 <= movesLeft && lastDirection != Direction.DOWN) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.UP);
+                } else if(newSelectionX == x && newSelectionY == y+1 && i+2 <= movesLeft && lastDirection != Direction.UP) {
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(Direction.DOWN);
+                }
+            }
+            directionList = newDirectionList;
+            drawArrows();
+        }
         if(nextDirection != Direction.NONE){
+            var x:Int = mover.x;
+            var y:Int = mover.y;
+            var dx:Int = 0;
+            var dy:Int = 0;
+            var nextDirectionReverse = Directions.reverseDirection(nextDirection);
             if(nextDirection == Direction.LEFT){
-                x--;
+                dx--;
             } else if(nextDirection == Direction.RIGHT){
-                x++;
-            } else if(nextDirection == Direction.UP){
-                y--;
-            } else if(nextDirection == Direction.DOWN){
-                y++;
+                dx++;
+            } else if(nextDirection == Direction.UP) {
+                dy--;
+            } else if(nextDirection == Direction.DOWN) {
+                dy++;
             }
-            if(Directions.reverseDirection(nextDirection) == directionList[directionList.length - 1]){
-                directionList.pop();
-            } else if(directionList.length < movesLeft && mover.canMoveThrough(x, y)) {
-                directionList.push(nextDirection);
+            var newDirectionList = directionList;
+
+            for(i in -1...directionList.length){
+                var lastDirection:Direction = Direction.STOP;
+                if(i >= 0){
+                    if(directionList[i] == Direction.LEFT){
+                        x--;
+                    } else if(directionList[i] == Direction.RIGHT){
+                        x++;
+                    } else if(directionList[i] == Direction.UP) {
+                        y--;
+                    } else if(directionList[i] == Direction.DOWN) {
+                        y++;
+                    }
+                    lastDirection = directionList[i];
+                }
+
+                if(mover.canMoveThrough(x + dx, y + dy) && i+2 <= movesLeft && lastDirection != nextDirectionReverse){
+                    newDirectionList = directionList.slice(0, i+1);
+                    newDirectionList.push(nextDirection);
+                } else if(i >= 0 && lastDirection == nextDirectionReverse){
+                    newDirectionList = directionList.slice(0, i);
+                }
             }
+            
+            directionList = newDirectionList;
             drawArrows();
         }
         else if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.Z)
