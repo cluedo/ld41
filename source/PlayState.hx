@@ -18,6 +18,7 @@ class PlayState extends FlxState
 	public var selectedSource:Int = -1;
 	public var selectedAction:Game.Action = Game.Action.NONE;
 	public var selectedTarget:Int = -1;
+	public var activeMenu:Menu = null;
 	override public function create():Void
 	{	
 		bgColor = new FlxColor(0xff303030);
