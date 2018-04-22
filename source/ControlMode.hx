@@ -94,7 +94,7 @@ class Selector extends FlxSprite
 		}
         if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN){
             if(selectionX < 0){
-                selectXY(0, 0);
+                selectXY(Math.floor(grid.gridWidth/2), Math.floor(grid.gridHeight/2));
             } else {
                 if(FlxG.keys.justPressed.LEFT && selectionX > 0){
                     selectXY(selectionX - 1, selectionY);

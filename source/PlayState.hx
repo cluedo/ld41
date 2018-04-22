@@ -43,6 +43,7 @@ class PlayState extends FlxState
 		FlxG.camera.minScrollY = Grid.CELL_HEIGHT/2 - FlxG.camera.height/2;
 		FlxG.camera.maxScrollX = Grid.CELL_WIDTH * _grid.gridWidth - Grid.CELL_WIDTH/2 + FlxG.camera.width/2;
 		FlxG.camera.maxScrollY = Grid.CELL_HEIGHT * _grid.gridHeight - Grid.CELL_HEIGHT/2 + FlxG.camera.height/2;
+		FlxG.camera.focusOn(new FlxPoint(Grid.CELL_WIDTH * _grid.gridWidth/2, Grid.CELL_HEIGHT * _grid.gridHeight/2));
 
 		super.create();
 	}	
