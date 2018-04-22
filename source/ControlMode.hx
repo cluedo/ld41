@@ -190,9 +190,7 @@ class MovementControlMode extends ControlMode {
     override public function doInput(){
         scrollScreen();
 
-        if(destinationSelector.moveSelection()){
-            return;
-        }
+        destinationSelector.moveSelection();
 
         if(FlxG.keys.justPressed.M || FlxG.mouse.justPressed)
         {
@@ -223,9 +221,7 @@ class KickControlMode extends ControlMode {
     override public function doInput(){
         scrollScreen();
 
-        if(destinationSelector.moveSelection()){
-            return;
-        }
+        destinationSelector.moveSelection();
 
         if(FlxG.keys.justPressed.K || FlxG.mouse.justPressed)
         {
