@@ -16,7 +16,7 @@ class Grid extends FlxSprite
     public var cellHeight:Int = Registry.GRID_SIZE;
     public var cellWidth:Int = Registry.GRID_SIZE;
 
-
+    public var gridTiles:Array<GridTile>;
     public var gridObjects:Array<GridObject>;
     public var selector:Selector;
 
@@ -25,12 +25,13 @@ class Grid extends FlxSprite
         gridWidth = width;
         gridHeight = height;
 
+        gridTiles = new Array<GridTile>();
         gridObjects = new Array<GridObject>();
 
         super(X, Y);
         makeGraphic(gridWidth*CELL_WIDTH+1, 
                     gridHeight*CELL_HEIGHT+1, 
-                    FlxColor.GREEN, true);
+                    FlxColor.TRANSPARENT, true);
 
         for(x in 0...gridWidth+1)
         {
@@ -63,6 +64,14 @@ class Grid extends FlxSprite
             grid.gridObjects.push(player);
         }
 
+        for(y in 0...game.height)
+        {
+            for(x in 0...game.width)
+            {
+                var tile = new GridTile(grid, x, y, game.getField(x,y));
+                grid.gridTiles.push(tile);
+            }
+        }
         return grid;
     }
 

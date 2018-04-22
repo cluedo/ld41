@@ -28,7 +28,14 @@ class PlayState extends FlxState
 
 
 		_grid = Grid.fromGame(_level.game);
+		for(tile in _grid.gridTiles)
+		{
+			add(tile);
+		}
+		
 		add(_grid);
+
+		
 
 		for(object in _grid.gridObjects)
 		{
