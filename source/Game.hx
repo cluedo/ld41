@@ -235,8 +235,13 @@ class Striker extends Actor
 
 class Ball extends Actor
 {
+    var startX:Int;
+    var startY:Int;
+
     public function new(x:Int, y:Int)
     {
+        startX = x;
+        startY = y;
         super(x, y, Team.NONE);
     }
 
@@ -251,16 +256,30 @@ class Ball extends Actor
         var ny = y + dy;
 
         var fieldType = game.getField(nx, ny);
-        if(fieldType != FieldType.FLOOR)
+        if(fieldType == FieldType.BLUE_GOAL)
+        {
+            trace("red scored!");
+            
+            game.moveActor(this, startX, startY);
             return;
+        }
+        else if(fieldType == FieldType.RED_GOAL)
+        {
+            trace("blue scored!");
 
-        var actor = game.getActor(nx, ny);
-        if(actor != null)
+            game.moveActor(this, startX, startY);
             return;
+        }
+        else if(fieldType == FieldType.FLOOR)
+        {
+            var actor = game.getActor(nx, ny);
+            if(actor != null)
+                return;
 
-        game.moveActor(this, nx, ny);
+            game.moveActor(this, nx, ny);
 
-        move(dx, dy, power-1);
+            move(dx, dy, power-1);
+        }
         
     }
 }
