@@ -1,3 +1,4 @@
 export/*
 *.DS_store
 vscode-project.hxml
+.vscode
