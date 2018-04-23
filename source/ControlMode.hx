@@ -94,14 +94,25 @@ class ControlMode {
 
 class Selector extends FlxSprite
 {
+    public static var HOLD_TIME = 21;
+    public static var REPEAT_RATE = 5;
+
     public var grid:Grid.Grid;
     public var selecting:Bool = false;
     public var selectionX:Int = -1;
     public var selectionY:Int = -1;
     private var _selectSound:FlxSound;
     public var cameraTween:FlxTween;
+    public var leftHold:Int = 0;
+    public var upHold:Int = 0;
+    public var rightHold:Int = 0;
+    public var downHold:Int = 0;
+    public var leftBound:Int;
+    public var rightBound:Int;
+    public var upBound:Int;
+    public var downBound:Int;
 
-    public function new(grid:Grid)
+    public function new(grid:Grid, leftBound:Int, rightBound:Int, upBound:Int, downBound:Int)
     {
         this.grid = grid;
         super(-1000, -1000);
@@ -114,6 +125,11 @@ class Selector extends FlxSprite
                                FlxColor.TRANSPARENT, 
                                {color: FlxColor.WHITE,
                                 thickness: 4});
+
+        this.leftBound = leftBound;
+        this.upBound = upBound;
+        this.rightBound = rightBound;
+        this.downBound = downBound;
 
         _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
         _selectSound.play();
@@ -149,6 +165,62 @@ class Selector extends FlxSprite
         //FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));
     }
 
+    public function computeDirection():Direction{
+        if(FlxG.keys.pressed.LEFT) {
+            leftHold++;
+        } else {
+            leftHold = 0;
+        }
+        if(FlxG.keys.pressed.UP) {
+            upHold++;
+        } else {
+            upHold = 0;
+        }
+        if(FlxG.keys.pressed.RIGHT) {
+            rightHold++;
+        } else {
+            rightHold = 0;
+        }
+        if(FlxG.keys.pressed.DOWN) {
+            downHold++;
+        } else {
+            downHold = 0;
+        }
+
+        if(FlxG.keys.justPressed.LEFT) {
+            return Direction.LEFT;
+        }
+        if(FlxG.keys.justPressed.UP) {
+            return Direction.UP;
+        }
+        if(FlxG.keys.justPressed.RIGHT) {
+            return Direction.RIGHT;
+        }
+        if(FlxG.keys.justPressed.DOWN) {
+            return Direction.DOWN;
+        }
+
+        if(leftHold == 0 && upHold == 0 && rightHold == 0 && downHold == 0){
+            return Direction.NONE;
+        }
+        if((leftHold + upHold + rightHold + downHold)*(leftHold + upHold + rightHold + downHold) != leftHold*leftHold + upHold*upHold + rightHold*rightHold + downHold*downHold){
+            return Direction.NONE;
+        }
+        if(leftHold == 1 || (leftHold > HOLD_TIME && leftHold % REPEAT_RATE == 1)){
+            return Direction.LEFT;
+        }
+        if(upHold == 1 || (upHold > HOLD_TIME && upHold % REPEAT_RATE == 1)){
+            return Direction.UP;
+        }
+        if(rightHold == 1 || (rightHold > HOLD_TIME && rightHold % REPEAT_RATE == 1)){
+            return Direction.RIGHT;
+        }
+        if(downHold == 1 || (downHold > HOLD_TIME && downHold % REPEAT_RATE == 1)){
+            return Direction.DOWN;
+        }
+        return Direction.NONE;
+    }
+
     public function moveSelection():Bool{ // Move the selection according to keyboard and mouse input
         if(FlxG.mouse.justPressed)
 		{
@@ -156,26 +228,32 @@ class Selector extends FlxSprite
 			var dy = FlxG.mouse.y - grid.y;
 
 			var newSelection = grid.getSquare(dx, dy);
-			selectSquare(newSelection);
+
+            var newX = newSelection % grid.gridWidth;
+            var newY = Math.floor(newSelection / grid.gridWidth);
+            if(newX >= leftBound && newX <= rightBound && newY >= upBound && newY <= downBound){
+			    selectXY(newX, newY);
+            }
             return true;
 		}
-        if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN){
+        var keyDirection:Direction = computeDirection();
+        if(keyDirection != Direction.NONE) {
             if(selectionX < 0){
                 selectXY(Math.floor(grid.gridWidth/2), Math.floor(grid.gridHeight/2));
             } else {
-                if(FlxG.keys.justPressed.LEFT && selectionX > 0){
+                if(keyDirection == Direction.LEFT && selectionX > leftBound){
                     selectXY(selectionX - 1, selectionY);
-                } else if(FlxG.keys.justPressed.RIGHT && selectionX < grid.gridWidth - 1){
+                } else if(keyDirection == Direction.RIGHT && selectionX < rightBound){
                     selectXY(selectionX + 1, selectionY);
-                } else if(FlxG.keys.justPressed.UP && selectionY > 0){
+                } else if(keyDirection == Direction.UP && selectionY > upBound){
                     selectXY(selectionX, selectionY - 1);
-                } else if(FlxG.keys.justPressed.DOWN && selectionY < grid.gridHeight - 1){
+                } else if(keyDirection == Direction.DOWN && selectionY < downBound){
                     selectXY(selectionX, selectionY + 1);
                 }
             }
             focusCamera();
             return true;
-		}
+        }
         return false;
     }
 }
@@ -185,7 +263,7 @@ class SelectionControlMode extends ControlMode {
     
     public function new(theState:PlayState, theParent:ControlMode){
         super(theState, theParent);
-        sourceSelector = new Selector(state._grid);
+        sourceSelector = new Selector(state._grid, 0, state._grid.gridWidth - 1, 0, state._grid.gridHeight - 1);
         state.add(sourceSelector);
     }
 
@@ -470,11 +548,41 @@ class MovementControlMode extends ControlMode {
 class KickControlMode extends ControlMode {
     public var destinationSelector:Selector;
     public var kicker:Striker;
+    public var kickBounds:FlxSprite;
 
     public function new(theState:PlayState, theParent:ControlMode, theKicker:Striker){
         super(theState, theParent);
         kicker = theKicker;
-        destinationSelector = new Selector(state._grid);
+        var left:Int = kicker.x - 1;
+        var right:Int = kicker.x + 1;
+        var up:Int = kicker.y - 1;
+        var down:Int = kicker.y + 1;
+        if(left < 0) {
+            left = 0;
+        }
+        if(right >= state._grid.gridWidth){
+            right = state._grid.gridWidth - 1;
+        }
+        if(up < 0){
+            up = 0;
+        } 
+        if(down >= state._grid.gridHeight) {
+            down = state._grid.gridHeight - 1;
+        }
+        destinationSelector = new Selector(state._grid, left, right, up, down);
+
+        kickBounds = new FlxSprite(state._grid.x, state._grid.y);
+        kickBounds.makeGraphic(Grid.CELL_WIDTH*state._grid.gridWidth+1, 
+                    Grid.CELL_HEIGHT*state._grid.gridHeight+1, 
+                    FlxColor.TRANSPARENT, true);
+        state.add(kickBounds);
+        FlxSpriteUtil.drawRect(kickBounds, left*Grid.CELL_WIDTH + 1, up*Grid.CELL_HEIGHT + 1, 
+                               (right - left + 1)*Grid.CELL_WIDTH-1, 
+                               (down - up + 1)*Grid.CELL_HEIGHT-1, 
+                               FlxColor.TRANSPARENT, 
+                               {color: FlxColor.BLACK,
+                                thickness: 4});
+        
         destinationSelector.selectXY(kicker.x, kicker.y);
         destinationSelector.color = FlxColor.YELLOW;
         state.add(destinationSelector);
@@ -489,6 +597,7 @@ class KickControlMode extends ControlMode {
         {
             if(kicker.takeAction(destinationSelector.selectionX, destinationSelector.selectionY, Game.Action.KICK)) {
                 state.remove(destinationSelector);
+                state.remove(kickBounds);
                 state.currentControlMode = parent;
                 state.topControlMode.sourceSelector.selectXY(kicker.x, kicker.y);
                 if(FlxG.keys.justPressed.K) {
@@ -497,6 +606,7 @@ class KickControlMode extends ControlMode {
             }
         } else if(FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.X) {
             state.remove(destinationSelector);
+            state.remove(kickBounds);
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
         }
