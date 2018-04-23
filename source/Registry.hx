@@ -21,20 +21,20 @@ class Registry
         1,
         1,
         1,
-    ]
+    ];
     public static var levelTurnsLimit:Array<Int> = [
         20,
         20,
         // single player levels start here
         2,
         2,
-    ]
+    ];
     public static var levelHelpText:Array<String> = [
         "Score as many goals as possible in 20 turns",
         "Score as many goals as possible in 20 turns",
         // single player levels start here
         ""
-    ]
+    ];
     public static var currLevel:Int = 0; 
     
     public static var tweenSem:Int = 0;
