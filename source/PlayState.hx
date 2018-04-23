@@ -14,6 +14,8 @@ class PlayState extends FlxState
     public var _levelFile:String;
     public var _grid:Grid;
 
+	public var _hud:HUD;
+
 	public var currentControlMode:ControlMode.ControlMode;
 	public var topControlMode:ControlMode.SelectionControlMode;
 	override public function create():Void
@@ -40,6 +42,10 @@ class PlayState extends FlxState
 
 		topControlMode = new ControlMode.SelectionControlMode(this, null);
 		currentControlMode = topControlMode;
+
+		_hud = new HUD(this);
+		add(_hud);
+		Registry.hud = _hud;
 		
 		if(FlxG.camera.width < Grid.CELL_WIDTH * _grid.gridWidth) {
 			FlxG.camera.minScrollX = Grid.CELL_WIDTH/2 - FlxG.camera.width/2;
