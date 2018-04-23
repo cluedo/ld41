@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="18" height="9" tilewidth="64" tileheight="64" infinite="0" nextobjectid="36">
+ <layer name="Tile Layer 1" width="18" height="9">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Strikers">
+  <object id="29" name="RED" x="320" y="192" width="64" height="64"/>
+  <object id="33" name="BLUE" x="256" y="256" width="64" height="64"/>
+  <object id="34" name="BLUE" x="256" y="192" width="64" height="64"/>
+  <object id="35" name="BLUE" x="256" y="320" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Bruisers">
+  <object id="8" name="RED" x="384" y="256" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Goals">
+  <object id="15" name="BLUE" x="0" y="0" width="64" height="64"/>
+  <object id="16" name="BLUE" x="0" y="64" width="64" height="64"/>
+  <object id="18" name="BLUE" x="0" y="128" width="64" height="64"/>
+  <object id="21" name="BLUE" x="0" y="256" width="64" height="64"/>
+  <object id="22" name="BLUE" x="0" y="192" width="64" height="64"/>
+  <object id="23" name="BLUE" x="0" y="320" width="64" height="64"/>
+  <object id="24" name="BLUE" x="0" y="384" width="64" height="64"/>
+  <object id="25" name="BLUE" x="0" y="448" width="64" height="64"/>
+  <object id="26" name="BLUE" x="0" y="512" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Balls">
+  <object id="1" name="ball" x="192" y="256" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Walls"/>
+</map>

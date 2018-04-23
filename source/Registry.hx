@@ -16,11 +16,15 @@ class Registry
         AssetPaths.moving_through_ball_intro__tmx,
         AssetPaths.moving_through_ball_intro_2__tmx,
         AssetPaths.multi_striker_challenge__tmx,
+        AssetPaths.bruiser_intro__tmx,
+        AssetPaths.bruiser_intro_2__tmx,
         ];
     public static var levelGoalTarget:Array<Int> = [
         999,
         999,
         // single player levels start here
+        1,
+        1,
         1,
         1,
         1,
@@ -36,6 +40,8 @@ class Registry
         1,
         2,
         1,
+        1,
+        1,
     ];
     public static var levelHelpText:Array<String> = [
         "Score as many goals as possible in 20 turns",
@@ -46,6 +52,8 @@ class Registry
         "Moving into the ball swaps the striker's position with the ball's",
         "Moving around the ball efficiently is important to a strong offense",
         "Tactically using several striker together enables a very fast offense",
+        "Bruisers can move enemy players out of the way by moving into them or kicking them away",
+        "Bruisers can also kick your own players",
     ];
     public static var currLevel:Int = 0; 
     
