@@ -27,6 +27,8 @@ enum Action {
 
 class Game
 {
+    public var playState:PlayState;
+
     public var turn:Int;
 
     public var field:Vector<FieldType>;
@@ -86,6 +88,8 @@ class Game
 
     public function moveActor(a:Actor, nx:Int, ny:Int)
     {
+        playState.addAnimation(a, getSquare(nx,ny));
+
         actors[ny*width + nx] = a;
         actors[a.y*width + a.x] = null;
 
@@ -95,6 +99,9 @@ class Game
 
     public function swapActors(a1:Actor, a2:Actor)
     {
+        playState.addAnimation(a1, getSquare(a2.x,a2.y));
+        playState.addAnimation(a2, getSquare(a1.x,a1.y));
+
         var x1 = a1.x;
         var y1 = a1.y;
         var x2 = a2.x;
@@ -145,6 +152,8 @@ class Game
 
 class Actor
 {
+    public var gridObject:GridObject;
+
     public var game:Game;
     public var team:Team;
 

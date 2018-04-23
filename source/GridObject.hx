@@ -9,6 +9,10 @@ import haxe.ds.Vector;
 
 class GridObject extends FlxSprite
 {
+    //TODO: maybe actually have an animation class if there are other props we care about
+    public var animationQueue:Array<FlxPoint>; 
+    public var isAnimating:Bool = false;
+
     public var grid:Grid;
     public var actor:Game.Actor;
     
@@ -20,15 +24,49 @@ class GridObject extends FlxSprite
         var X = grid.x + Grid.CELL_WIDTH * actor.x;
         var Y = grid.y + Grid.CELL_HEIGHT * actor.y;
 
+        animationQueue = new Array<FlxPoint>();
+
         super(X, Y);
     }
 
     public override function update(elapsed:Float):Void
     {
-        x = grid.x + Grid.CELL_WIDTH * actor.x;
-        y = grid.y + Grid.CELL_HEIGHT * actor.y;
-
+        if(!isAnimating)
+        {
+            if(animationQueue.length > 0)
+            {
+                isAnimating = true;
+                animate();
+            }
+            else
+            {
+                x = grid.x + Grid.CELL_WIDTH * actor.x;
+                y = grid.y + Grid.CELL_HEIGHT * actor.y;
+            }
+        }
+        
         super.update(elapsed);
+    }
+
+    public function animate()
+    {
+        if(animationQueue.length == 0)
+        {
+            isAnimating = false;
+        }
+        else
+        {
+            var target = animationQueue.shift();
+            FlxTween.tween(this, 
+                           {x:target.x, y:target.y}, 
+                           0.25, 
+			               {onComplete: 
+                                function(tween:FlxTween)
+                                {
+                                    animate();
+                                }
+                            });
+        }
     }
 
 }
@@ -47,6 +85,7 @@ class GridPlayer extends GridObject
     public function new(grid:Grid, actor:Game.Actor)
     {
         super(grid, actor);
+        actor.gridObject = this;
         
         if(Std.is(actor, Game.Bruiser))
         {
