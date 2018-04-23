@@ -159,7 +159,6 @@ class Selector extends FlxSprite
         this.selectionY = selectionY;
         x = grid.x + selectionX*Grid.CELL_WIDTH;
         y = grid.y + selectionY*Grid.CELL_HEIGHT;
-        _selectSound.play();
         Registry.hud.updateHUD();
     }
 
@@ -328,15 +327,16 @@ class SelectionControlMode extends ControlMode {
                 state.currentControlMode = new MovementControlMode(state, this, cast(actor, Striker));
                 return;
             }
-            if(FlxG.keys.justPressed.M && !actor.hasMoves())
-            {
-                _badSelectionSound.play();
-            }
             else if(FlxG.keys.justPressed.K && cast(actor, Striker).curKicks > 0)
             {
                 state.currentControlMode = new KickControlMode(state, this, cast(actor, Striker));
                 return;
             }
+        }
+
+        if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.K)
+        {
+            _badSelectionSound.play();
         }
 
 		if(FlxG.keys.justPressed.SPACE)
@@ -617,6 +617,8 @@ class KickControlMode extends ControlMode {
                 if(FlxG.keys.justPressed.K) {
                     state.topControlMode.sourceSelector.focusCamera();
                 }
+            } else {
+                _badSelectionSound.play();
             }
         } else if(FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.X) {
             state.remove(destinationSelector);
