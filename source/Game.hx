@@ -217,8 +217,8 @@ class Actor
                 }
                 else {
                     new FlxTimer().start(3,unfreezeInput,1);
+                    game.moveActor(this, startX, startY);
                 }
-                game.moveActor(this, startX, startY);
                 return;
             }
             else if(fieldType == FieldType.RED_GOAL)
