@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 
@@ -80,6 +81,15 @@ class Grid extends FlxSprite
 
         if(x<0 || x>=gridWidth || y<0 || y>= gridHeight) return -1;
         return y*gridWidth + x;
+    }
+
+    public function getCorner(square:Int):FlxPoint
+    {
+        var corner:FlxPoint = new FlxPoint();
+        corner.x = x + (square%gridWidth)*CELL_WIDTH;
+        corner.y = y + Std.int(square/gridWidth)*CELL_HEIGHT;
+
+        return corner;
     }
 
 }

@@ -23,7 +23,7 @@ class PlayState extends FlxState
 		Registry.init();
 		_levelFile = Registry.levelList[Registry.currLevel];
         _level = new Level(_levelFile);
-
+		_level.game.playState = this;
 
 		_grid = Grid.fromGame(_level.game);
 		for(tile in _grid.gridTiles)
@@ -74,5 +74,14 @@ class PlayState extends FlxState
         victoryText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
         add(victoryText);
     }
+	
+	public function addAnimation(actor:Game.Actor, targetSquare:Int)
+	{
+		if(actor.gridObject == null)
+			return;
+		
+		var target = _grid.getCorner(targetSquare);
+		actor.gridObject.animationQueue.push(target);
+	}
 
 }
