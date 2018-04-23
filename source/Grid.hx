@@ -35,11 +35,11 @@ class Grid extends FlxSprite
 
         for(x in 0...gridWidth+1)
         {
-            FlxSpriteUtil.drawLine(this, x*CELL_WIDTH, 0, x*CELL_WIDTH, gridHeight*CELL_HEIGHT, {thickness: 3});  
+            FlxSpriteUtil.drawLine(this, x*CELL_WIDTH, 0, x*CELL_WIDTH, gridHeight*CELL_HEIGHT, {color: 0x3fffffff, thickness: 3});  
         }
         for(y in 0...gridHeight+1)
         {
-            FlxSpriteUtil.drawLine(this, 0, y*CELL_HEIGHT, gridWidth*CELL_WIDTH, y*CELL_HEIGHT, {thickness: 3});
+            FlxSpriteUtil.drawLine(this, 0, y*CELL_HEIGHT, gridWidth*CELL_WIDTH, y*CELL_HEIGHT, {color: 0x3fffffff,thickness: 3});
         }
 
     }
