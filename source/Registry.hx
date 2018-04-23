@@ -57,7 +57,7 @@ class Registry
         "Score as many goals as possible in 20 turns.",
         "Score as many goals as possible in 20 turns.",
         // single player levels start here
-        "The basic striker unit can move 3 times per turn and kick the ball once. Press Space to move to the next turn.",
+        "On each turn, the basic striker unit can move 3 times and kick the ball once. Press Space to move to the next turn.",
         "Strikers can perform the actions of one turn in any order.",
         "A striker can move into the ball to switch positions with it.",
         "",
