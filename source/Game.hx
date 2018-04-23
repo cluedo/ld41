@@ -167,6 +167,10 @@ class Actor
     private var _kickSound:FlxSound;
     private var _applauseSound:FlxSound;
 
+    public var abilitiesText = "Abilities:\n" +
+                                " - M: move\n" + 
+                                " - K: kick\n";
+
     public function new(x:Int, y:Int, team:Team)
     {
         this.x = x;
@@ -286,7 +290,7 @@ class Striker extends Actor
 
     public var curMoves:Int;
     public var curKicks:Int;
-
+    
     public function new(x:Int, y:Int, team:Team)
     {
         super(x, y, team);
@@ -294,7 +298,15 @@ class Striker extends Actor
         numMoves = 3;
         numKicks = 1;
         kickPower = 3;
-
+        abilitiesText = "Abilities:\n" +
+                        " - M: move\n" + 
+                        " - K: kick\n\n" +
+                        "Strikers can kick\n" +
+                        "the ball 3 spaces\n" +
+                        "in any direction.\n" +
+                        "They can move into\n" +
+                        "the ball to switch\n" +
+                        "positions with it.\n";
         endTurn();
     }
 
@@ -444,6 +456,15 @@ class Bruiser extends Striker
         numKicks = 3;
         kickPower = 3;
 
+        abilitiesText = "Abilities:\n" +
+                        " - M: move\n" + 
+                        " - K: kick\n\n" +
+                        "Bruisers can't kick\n" +
+                        "the ball, but they\n" +
+                        "can kick players.\n" +
+                        "They can also move\n" +
+                        "into players to swap\n" +
+                        "positions with them.\n";
         endTurn();
     }
 
@@ -500,6 +521,17 @@ class SkaterBoy extends Striker
         numMoves = 2;
         numKicks = 1;
         kickPower = 4;
+
+        abilitiesText = "Abilities:\n" +
+                        " - M: move\n" + 
+                        " - K: kick\n\n" +
+                        "Skater boys move\n" +
+                        "in a straight line\n" +
+                        "until they hit\n" +
+                        "something. Unlike\n" +
+                        "other units, they\n" +
+                        "can't swap positions\n" +
+                        "with the ball.\n";
         endTurn();
     }
 
