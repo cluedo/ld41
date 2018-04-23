@@ -4,6 +4,7 @@ import haxe.ds.Vector;
 import flixel.system.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
+import flixel.util.FlxSave;
 
 enum FieldType{
     FLOOR;
@@ -42,6 +43,8 @@ class Game
 
     public var redTeamScore:Int;
     public var blueTeamScore:Int;
+
+    public static var SAVE_NAME = "save";
 
     public function new(width:Int, height:Int)
     {
@@ -84,6 +87,65 @@ class Game
         {
             blueTeam.push(a);
         }
+    }
+    
+    public static function prevLevel(time:Float):Bool {
+         if(Registry.currLevel > Registry.singlePlayerLevelStart) {
+            Registry.freezeInput = true;
+            new FlxTimer().start(time, function(t:FlxTimer){
+                Registry.currLevel -= 1;
+                Registry.freezeInput = false;
+                FlxG.switchState(new PlayState());
+            }, 1);
+            return true;
+        }
+        return false;
+    }
+
+    public static function restartLevel(time:Float) {
+        if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
+            Registry.freezeInput = true;
+            new FlxTimer().start(time, function(t:FlxTimer){
+                Registry.freezeInput = false;
+                FlxG.switchState(new PlayState());
+            }, 1);
+            return true;
+        }
+        return false;
+    }
+    
+    public static function nextLevelIfUnlocked(time:Float):Bool {
+        var save:FlxSave = new FlxSave();
+        save.bind(SAVE_NAME);
+        if(save.data.lastLevelUnlocked != null && Registry.currLevel < cast(save.data.lastLevelUnlocked, Int)) {
+            return nextLevel(time);
+        }
+        return false;
+    }
+    public static function nextLevel(time:Float):Bool
+    {
+        if(Registry.currLevel >= Registry.singlePlayerLevelStart && Registry.currLevel < (Registry.levelList.length - 1)) {
+            Registry.freezeInput = true;
+            new FlxTimer().start(time, function(t:FlxTimer){
+                Registry.currLevel += 1;
+                Registry.freezeInput = false;
+                
+                var save:FlxSave = new FlxSave();
+                save.bind(SAVE_NAME);
+                if(save.data.lastLevelUnlocked == null || cast(save.data.lastLevelUnlocked, Int) < Registry.currLevel) {
+                    save.data.lastLevelUnlocked = Registry.currLevel;
+                }
+                save.flush();
+
+                FlxG.switchState(new PlayState());
+            }, 1);
+            return true;
+        } else if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
+            new FlxTimer().start(time, function(t:FlxTimer){
+                FlxG.switchState(new EndScreen());
+            }, 1);
+        }
+        return false;
     }
 
     public function moveActor(a:Actor, nx:Int, ny:Int)
@@ -138,7 +200,7 @@ class Game
     {
         if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
             if(Std.int(turn/2)+1 >= Registry.levelTurnsLimit[Registry.currLevel]) {
-                FlxG.switchState(new PlayState());
+                restartLevel(0);
             }
         }
         for(actor in actors)
@@ -218,7 +280,7 @@ class Actor
                 _applauseSound.play();
                 Registry.freezeInput = true;
                 if(game.redTeamScore == Registry.levelGoalTarget[Registry.currLevel]) {
-                    new FlxTimer().start(3,nextLevel,1);
+                    Game.nextLevel(3);
                 }
                 else {
                     new FlxTimer().start(3,unfreezeInput,1);
@@ -249,17 +311,6 @@ class Actor
         
     }
 
-    public function nextLevel(timer:FlxTimer)
-    {
-        if(Registry.currLevel < (Registry.levelList.length - 1)) {
-            Registry.currLevel += 1;
-            Registry.freezeInput = false;
-            FlxG.switchState(new PlayState());
-        }
-        else {
-            FlxG.switchState(new EndScreen());
-        }
-    }
 
     public function unfreezeInput(timer:FlxTimer) {
         Registry.freezeInput = false;

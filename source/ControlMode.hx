@@ -107,6 +107,28 @@ class ControlMode {
             }
         }
     }
+
+    public function checkPrevNextRestart() {
+        if(FlxG.keys.justPressed.R) {
+            if(Game.restartLevel(0)){
+                _selectSound.play();
+            } else {
+                _badSelectionSound.play();
+            }
+        } else if (FlxG.keys.justPressed.Q){
+            if(Game.prevLevel(0)){
+                _selectSound.play();
+            } else {
+                _badSelectionSound.play();
+            }
+        } else if (FlxG.keys.justPressed.E) {
+            if(Game.nextLevelIfUnlocked(0)){
+                _selectSound.play();
+            } else {
+                _badSelectionSound.play();
+            }
+        }
+    }
 }
 
 class Selector extends FlxSprite
@@ -341,13 +363,16 @@ class SelectionControlMode extends ControlMode {
         if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.K)
         {
             _badSelectionSound.play();
+            return;
         }
 
 		if(FlxG.keys.justPressed.SPACE)
 		{
 			state._level.game.endTurn();
             Registry.hud.updateHUD();
+            return;
 		}
+        checkPrevNextRestart();
     }
 }
 
@@ -560,6 +585,8 @@ class MovementControlMode extends ControlMode {
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
             eraseArrows();
+        } else {
+            checkPrevNextRestart();
         }
     }
 }
@@ -630,6 +657,8 @@ class KickControlMode extends ControlMode {
             state.remove(kickBounds);
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
+        } else {
+            checkPrevNextRestart();
         }
     }
 }

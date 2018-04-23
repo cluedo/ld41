@@ -16,9 +16,12 @@ class EndScreen extends FlxState
 	var titleText:FlxText;
     var helpText:FlxText;
     var background:FlxSprite;
+	private var _selectSound:FlxSound;
+
 	override public function create():Void
 	{
 		super.create();
+        _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
 
 		bgColor = new FlxColor(0xFF009900);
         background = new FlxSprite();
@@ -41,6 +44,7 @@ class EndScreen extends FlxState
 		super.update(elapsed);
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
+			_selectSound.play();
 			FlxG.switchState(new InitialScreen());
 		}
 	}
