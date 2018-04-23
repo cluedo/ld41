@@ -69,4 +69,10 @@ class PlayState extends FlxState
 		currentControlMode.doInput();
 	}
 
+    public function showVictoryText():Void {
+        var victoryText = new FlxText(300, 250, 0, "Congratulations!");
+        victoryText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
+        add(victoryText);
+    }
+
 }

@@ -2,6 +2,7 @@ package;
 
 import haxe.ds.Vector;
 import flixel.system.FlxSound;
+import flixel.util.FlxTimer;
 import flixel.FlxG;
 
 enum FieldType{
@@ -128,12 +129,16 @@ class Game
 
     public function endTurn()
     {
+        if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
+            if(Std.int(turn/2)+1 >= Registry.levelTurnsLimit[Registry.currLevel]) {
+                FlxG.switchState(new PlayState());
+            }
+        }
         for(actor in actors)
         {
             if(actor!=null)
                 actor.endTurn();
         }
-
         turn++;
     }
 }
@@ -195,17 +200,25 @@ class Actor
         {
             if(fieldType == FieldType.BLUE_GOAL)
             {
-                trace("red scored!");
                 game.redTeamScore = game.redTeamScore + 1;
                 _applauseSound.play();
+                Registry.freezeInput = true;
+                if(game.redTeamScore == Registry.levelGoalTarget[Registry.currLevel]) {
+                    //PlayState.showVictoryText();
+                    new FlxTimer().start(3,nextLevel,1);
+                }
+                else {
+                    new FlxTimer().start(3,unfreezeInput,1);
+                }
                 game.moveActor(this, startX, startY);
                 return;
             }
             else if(fieldType == FieldType.RED_GOAL)
             {
-                trace("blue scored!");
                 game.blueTeamScore = game.blueTeamScore + 1;
                 _applauseSound.play();
+                Registry.freezeInput = true;
+                new FlxTimer().start(3,unfreezeInput,1);
                 game.moveActor(this, startX, startY);
                 return;
             }
@@ -222,6 +235,22 @@ class Actor
             roll(dx, dy, power-1);
         }
         
+    }
+
+    public function nextLevel(timer:FlxTimer)
+    {
+        if(Registry.currLevel < (Registry.levelList.length - 1)) {
+            Registry.currLevel += 1;
+            Registry.freezeInput = false;
+            FlxG.switchState(new PlayState());
+        }
+        else {
+            FlxG.switchState(new EndScreen());
+        }
+    }
+
+    public function unfreezeInput(timer:FlxTimer) {
+        Registry.freezeInput = false;
     }
 
     public function hasMoves():Bool

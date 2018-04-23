@@ -196,6 +196,9 @@ class SelectionControlMode extends ControlMode {
             sourceSelector.color = FlxColor.BLUE;
         }
 
+        if(Registry.freezeInput) {
+            return;
+        }
         if(state._level.game.turn%2==1 && Registry.currLevel >= Registry.singlePlayerLevelStart) {
             state._level.game.endTurn();
             return;
