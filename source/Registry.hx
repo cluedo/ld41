@@ -8,10 +8,12 @@ class Registry
     public static var hud:HUD;
 
     // this is the index of the first single player level in the below arrays
-    public static var singlePlayerLevelStart = 2;
+    public static var singlePlayerLevelStart = 4;
     public static var levelList:Array<String> = [
-        AssetPaths.crazy_level__tmx,
         AssetPaths.normal_level__tmx,
+        AssetPaths.two_balls__tmx,
+        AssetPaths.small_goals__tmx,
+        AssetPaths.many_walls__tmx,
         // single player levels start here
         AssetPaths.striker_intro_1__tmx,
         AssetPaths.striker_intro_2__tmx,
@@ -25,6 +27,8 @@ class Registry
         AssetPaths.challenge_1__tmx,
         ];
     public static var levelGoalTarget:Array<Int> = [
+        999,
+        999,
         999,
         999,
         // single player levels start here
@@ -42,6 +46,8 @@ class Registry
     public static var levelTurnsLimit:Array<Int> = [
         20,
         20,
+        20,
+        20,
         // single player levels start here
         2,
         2,
@@ -55,6 +61,8 @@ class Registry
         1,
     ];
     public static var levelHelpText:Array<String> = [
+        "Score as many goals as possible in 20 turns.",
+        "Score as many goals as possible in 20 turns.",
         "Score as many goals as possible in 20 turns.",
         "Score as many goals as possible in 20 turns.",
         // single player levels start here

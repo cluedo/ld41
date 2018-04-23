@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="64" tileheight="64" infinite="0" nextobjectid="180">
+ <layer name="Tile Layer 1" width="25" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Walls">
+  <object id="162" name="wall" x="320" y="896" width="64" height="64"/>
+  <object id="163" name="wall" x="320" y="0" width="64" height="64"/>
+  <object id="164" name="wall" x="1216" y="0" width="64" height="64"/>
+  <object id="165" name="wall" x="1216" y="896" width="64" height="64"/>
+  <object id="166" name="wall" x="1216" y="896" width="64" height="64"/>
+  <object id="167" name="wall" x="1088" y="768" width="64" height="64"/>
+  <object id="168" name="wall" x="448" y="768" width="64" height="64"/>
+  <object id="169" name="wall" x="192" y="640" width="64" height="64"/>
+  <object id="170" name="wall" x="192" y="512" width="64" height="64"/>
+  <object id="171" name="wall" x="192" y="192" width="64" height="64"/>
+  <object id="172" name="wall" x="448" y="192" width="64" height="64"/>
+  <object id="173" name="wall" x="704" y="320" width="64" height="64"/>
+  <object id="174" name="wall" x="832" y="576" width="64" height="64"/>
+  <object id="175" name="wall" x="1344" y="256" width="64" height="64"/>
+  <object id="176" name="wall" x="1344" y="384" width="64" height="64"/>
+  <object id="177" name="wall" x="1344" y="640" width="64" height="64"/>
+  <object id="178" name="wall" x="704" y="832" width="64" height="64"/>
+  <object id="179" name="wall" x="832" y="64" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Strikers">
+  <object id="9" name="RED" x="576" y="640" width="64" height="64"/>
+  <object id="14" name="RED" x="576" y="256" width="64" height="64"/>
+  <object id="24" name="BLUE" x="960" y="256" width="64" height="64"/>
+  <object id="26" name="BLUE" x="960" y="640" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Goals">
+  <object id="34" name="RED" x="0" y="384" width="64" height="64"/>
+  <object id="35" name="RED" x="0" y="448" width="64" height="64"/>
+  <object id="36" name="RED" x="0" y="512" width="64" height="64"/>
+  <object id="41" name="BLUE" x="1536" y="512" width="64" height="64"/>
+  <object id="42" name="BLUE" x="1536" y="448" width="64" height="64"/>
+  <object id="43" name="BLUE" x="1536" y="384" width="64" height="64"/>
+  <object id="44" name="RED" x="0" y="576" width="64" height="64"/>
+  <object id="45" name="RED" x="0" y="640" width="64" height="64"/>
+  <object id="46" name="RED" x="-0.666667" y="833.333" width="64" height="64"/>
+  <object id="47" name="RED" x="0" y="704" width="64" height="64"/>
+  <object id="48" name="RED" x="0" y="769.333" width="64" height="64"/>
+  <object id="57" name="RED" x="1.33333" y="321.333" width="64" height="64"/>
+  <object id="58" name="RED" x="2.33333" y="1.33333" width="64" height="64"/>
+  <object id="59" name="RED" x="1.33333" y="193.333" width="64" height="64"/>
+  <object id="60" name="RED" x="1.33333" y="65.3333" width="64" height="64"/>
+  <object id="61" name="RED" x="1.33333" y="257.333" width="64" height="64"/>
+  <object id="62" name="RED" x="1.33333" y="129.333" width="64" height="64"/>
+  <object id="88" name="BLUE" x="1533.33" y="190.667" width="64" height="64"/>
+  <object id="89" name="BLUE" x="1533.33" y="318.667" width="64" height="64"/>
+  <object id="90" name="BLUE" x="1533.33" y="254.667" width="64" height="64"/>
+  <object id="91" name="BLUE" x="1534.67" y="577.333" width="64" height="64"/>
+  <object id="92" name="BLUE" x="1534.67" y="705.333" width="64" height="64"/>
+  <object id="93" name="BLUE" x="1534.67" y="641.333" width="64" height="64"/>
+  <object id="94" name="BLUE" x="1537.33" y="766.667" width="64" height="64"/>
+  <object id="95" name="BLUE" x="1537.33" y="894.667" width="64" height="64"/>
+  <object id="96" name="BLUE" x="1537.33" y="830.667" width="64" height="64"/>
+  <object id="128" name="BLUE" x="1536" y="128" width="64" height="64"/>
+  <object id="129" name="BLUE" x="1536" y="64" width="64" height="64"/>
+  <object id="141" name="RED" x="0" y="896" width="64" height="64"/>
+  <object id="161" name="BLUE" x="1536" y="0" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Balls">
+  <object id="1" name="ball" x="768" y="448" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Bruisers">
+  <object id="134" name="RED" x="512" y="384" width="64" height="64"/>
+  <object id="135" name="RED" x="512" y="512" width="64" height="64"/>
+  <object id="136" name="BLUE" x="1024" y="512" width="64" height="64"/>
+  <object id="137" name="BLUE" x="1024" y="384" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="SkaterBoys">
+  <object id="138" name="RED" x="320" y="576" width="64" height="64"/>
+  <object id="140" name="BLUE" x="1216" y="320" width="64" height="64"/>
+  <object id="159" name="RED" x="320" y="320" width="64" height="64"/>
+  <object id="160" name="BLUE" x="1216" y="576" width="64" height="64"/>
+ </objectgroup>
+</map>
