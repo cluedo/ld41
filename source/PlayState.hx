@@ -7,6 +7,8 @@ import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop;
 
 class PlayState extends FlxState
 {
@@ -15,13 +17,14 @@ class PlayState extends FlxState
     public var _grid:Grid;
 
 	public var _hud:HUD;
-
+    var background:FlxBackdrop;
 	public var currentControlMode:ControlMode.ControlMode;
 	public var topControlMode:ControlMode.SelectionControlMode;
 	override public function create():Void
 	{	
 		bgColor = new FlxColor(0xff303030);
-
+        background = new FlxBackdrop(AssetPaths.grass_dark__png);
+        add(background);
 		Registry.init();
 		_levelFile = Registry.levelList[Registry.currLevel];
         _level = new Level(_levelFile);
