@@ -467,7 +467,7 @@ class Bruiser extends Striker
         if(Math.abs(dx)>1 || Math.abs(dy) > 1)
             return false;
         var target = game.getActor(x + dx, y + dy);
-        if(target == null || Std.is(target, Ball))
+        if(target == null || Std.is(target, Ball) || target == this)
             return false;
 
         return true;
