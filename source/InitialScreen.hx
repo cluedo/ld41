@@ -18,9 +18,12 @@ class InitialScreen extends FlxState
 	var singleplayerText:FlxText;
 	var multiplayerText:FlxText;
     var background:FlxSprite;
+	private var _selectSound:FlxSound;
+
 	override public function create():Void
 	{
 		super.create();
+        _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
 
 		bgColor = new FlxColor(0xFF009900);
 
@@ -51,14 +54,13 @@ class InitialScreen extends FlxState
 		super.update(elapsed);
 		if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(singleplayerText))
 		{
-            // not really implemented yet, but the idea is that levels
-            // over some constant n are single player levels
 		    Registry.currLevel = Registry.singlePlayerLevelStart;
-            //Registry.currLevel = 11;
+			_selectSound.play();
 			FlxG.switchState(new PlayState());
 		}
 		if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(multiplayerText))
 		{
+			_selectSound.play();
 			FlxG.switchState(new LevelSelect());
 		}
 	}

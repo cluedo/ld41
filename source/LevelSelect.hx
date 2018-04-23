@@ -20,9 +20,12 @@ class LevelSelect extends FlxState
     var manywallsText:FlxText;
 
     var background:FlxSprite;
+	private var _selectSound:FlxSound;
+
 	override public function create():Void
 	{
 		super.create();
+		_selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
 
 		bgColor = new FlxColor(0xFF009900);
         background = new FlxSprite();
@@ -57,11 +60,13 @@ class LevelSelect extends FlxState
         if(FlxG.mouse.justPressed && FlxG.mouse.overlaps(normalText))
 		{
 		    Registry.currLevel = 0;
+			_selectSound.play();
 			FlxG.switchState(new PlayState());
 		}
         if(FlxG.mouse.justPressed && FlxG.mouse.overlaps(twoballText))
 		{
 		    Registry.currLevel = 1;
+			_selectSound.play();
 			FlxG.switchState(new PlayState());
 		}
         if(FlxG.mouse.justPressed && FlxG.mouse.overlaps(smallgoalsText))
