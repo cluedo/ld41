@@ -25,25 +25,15 @@ class GridTile extends FlxSprite
         switch(type)
         {
             case Game.FieldType.FLOOR:
-                makeGraphic(Grid.CELL_WIDTH, 
-                            Grid.CELL_HEIGHT, 
-                            FlxColor.GREEN);
+                loadGraphic(AssetPaths.grass_small__png);
             case Game.FieldType.WALL:
-                makeGraphic(Grid.CELL_WIDTH, 
-                            Grid.CELL_HEIGHT, 
-                            FlxColor.BLACK);
+                loadGraphic(AssetPaths.grass_wall__png);
             case Game.FieldType.RED_GOAL:
-                makeGraphic(Grid.CELL_WIDTH, 
-                            Grid.CELL_HEIGHT, 
-                            FlxColor.RED);
+                loadGraphic(AssetPaths.grass_red_goal__png);
             case Game.FieldType.BLUE_GOAL:
-                makeGraphic(Grid.CELL_WIDTH, 
-                            Grid.CELL_HEIGHT, 
-                            FlxColor.BLUE);
+                loadGraphic(AssetPaths.grass_blue_goal__png);
             default:
-                makeGraphic(Grid.CELL_WIDTH, 
-                            Grid.CELL_HEIGHT, 
-                            FlxColor.TRANSPARENT);
+                loadGraphic(AssetPaths.grass_small__png);
         }
     }
 
