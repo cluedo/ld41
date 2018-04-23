@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.FlxSound;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxPoint;
@@ -140,7 +141,11 @@ class Selector extends FlxSprite
     }
 
     public function focusCamera(){
-        FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));
+        FlxTween.tween(FlxG.camera.scroll,
+                       {x:this.x + Grid.CELL_WIDTH/2 - 0.5*FlxG.camera.width, 
+                        y:this.y + Grid.CELL_HEIGHT/2 - 0.5*FlxG.camera.height},
+                       0.3);
+        //FlxG.camera.focusOn(new FlxPoint(this.x + Grid.CELL_WIDTH/2, this.y + Grid.CELL_HEIGHT/2));
     }
 
     public function moveSelection():Bool{ // Move the selection according to keyboard and mouse input
