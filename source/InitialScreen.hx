@@ -39,6 +39,8 @@ class InitialScreen extends FlxState
 		add(multiplayerText);
 
 		Registry.currLevel = 0;
+
+		MusicUtils.playMusic(AssetPaths.title__ogg, 7351.20181406);
 	}
 
 	override public function update(elapsed:Float):Void
