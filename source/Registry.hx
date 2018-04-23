@@ -65,7 +65,7 @@ class Registry
         "Press Tab to switch between the strikers on your team.",
         "Bruisers can't kick the ball, but they can kick players. They can also switch positions with players by moving into them.",
         "",
-        "Skaters move in a straight line until they hit an obstacle. Unlike strikers and bruisers, they cannot swap positions with the ball.",
+        "Skaters move in a straight line until they hit an obstacle. Unlike strikers and bruisers, they can't swap positions with the ball.",
         "",
         "Complicated situations like this happen frequently in multiplayer.",
     ];
