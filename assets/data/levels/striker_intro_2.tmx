@@ -21,8 +21,5 @@
  <objectgroup name="Balls">
   <object id="1" name="ball" x="512" y="192" width="64" height="64"/>
  </objectgroup>
- <objectgroup name="Walls">
-  <object id="19" name="wall" x="256" y="0" width="64" height="64"/>
-  <object id="20" name="wall" x="0" y="0" width="64" height="64"/>
- </objectgroup>
+ <objectgroup name="Walls"/>
 </map>
