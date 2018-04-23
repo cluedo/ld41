@@ -213,7 +213,6 @@ class Actor
                 _applauseSound.play();
                 Registry.freezeInput = true;
                 if(game.redTeamScore == Registry.levelGoalTarget[Registry.currLevel]) {
-                    //PlayState.showVictoryText();
                     new FlxTimer().start(3,nextLevel,1);
                 }
                 else {

@@ -13,12 +13,16 @@ class Registry
         // single player levels start here
         AssetPaths.striker_intro_1__tmx,
         AssetPaths.striker_intro_2__tmx,
+        AssetPaths.moving_through_ball_intro__tmx,
+        AssetPaths.moving_through_ball_intro_2__tmx,
         AssetPaths.multi_striker_challenge__tmx,
         ];
     public static var levelGoalTarget:Array<Int> = [
         999,
         999,
         // single player levels start here
+        1,
+        1,
         1,
         1,
         1,
@@ -30,6 +34,8 @@ class Registry
         2,
         2,
         1,
+        2,
+        1,
     ];
     public static var levelHelpText:Array<String> = [
         "Score as many goals as possible in 20 turns",
@@ -37,6 +43,8 @@ class Registry
         // single player levels start here
         "The basic striker unit can move 3 times a turn and kick the ball once",
         "Note that the striker can move after kicking",
+        "Moving into the ball swaps the striker's position with the ball's",
+        "Moving around the ball efficiently is important to a strong offense"
         "Tactically using several striker together enables a very fast offense",
     ];
     public static var currLevel:Int = 0; 
