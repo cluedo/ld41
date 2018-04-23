@@ -37,6 +37,7 @@ class Registry
         1,
         1,
         1,
+        1,
     ];
     public static var levelTurnsLimit:Array<Int> = [
         20,
