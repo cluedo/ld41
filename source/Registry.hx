@@ -55,19 +55,19 @@ class Registry
         1,
     ];
     public static var levelHelpText:Array<String> = [
-        "Score as many goals as possible in 20 turns",
-        "Score as many goals as possible in 20 turns",
+        "Score as many goals as possible in 20 turns.",
+        "Score as many goals as possible in 20 turns.",
         // single player levels start here
-        "The basic striker unit can move 3 times a turn and kick the ball once",
-        "Note that the striker can move after kicking",
-        "Moving into the ball swaps the striker's position with the ball's",
-        "Moving around the ball efficiently is important to a strong offense",
-        "Tactically using several striker together enables a very fast offense",
-        "Bruisers can move enemy players out of the way by moving into them or kicking them away",
-        "Bruisers can also kick your own players",
-        "Skaters move until they hit an obstacle, allowing them to reach places quickly",
-        "It can be difficult to get skaters where you need them to be",
-        "Complicated situations like this happen frequently in multiplayer",
+        "On each turn, the basic striker unit can move 3 times and kick the ball once. Press Space to move to the next turn.",
+        "Strikers can perform the actions of one turn in any order.",
+        "A striker can move into the ball to switch positions with it.",
+        "",
+        "Press Tab to switch between the strikers on your team.",
+        "Bruisers can't kick the ball, but they can kick players. They can also switch positions with players by moving into them.",
+        "",
+        "Skaters move in a straight line until they hit an obstacle. Unlike strikers and bruisers, they can't swap positions with the ball by moving into it.",
+        "",
+        "Complicated situations like this happen frequently in multiplayer.",
     ];
     public static var currLevel:Int = 0; 
     

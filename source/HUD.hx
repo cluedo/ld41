@@ -86,13 +86,6 @@ class ActorBox extends FlxSpriteGroup
     private var abilitiesOffsetX = 15;
     private var abilitiesOffsetY = 150;
 
-    // todo: if we have things with different sets of abilities, probably should generate this in Game
-    private var abilitiesText = "Abilities:\n" +
-                                " - M: move\n" + 
-                                " - K: kick\n" +
-                                "(Press I for more \n" +
-                                "information)";
-
     public function new()
 	{
         super(0,0);
@@ -128,7 +121,7 @@ class ActorBox extends FlxSpriteGroup
                 var striker:Game.Striker = cast actor;
                 movesLeft.text = "Moves Left: " + striker.curMoves + "/" + striker.numMoves;
                 kicksLeft.text = "Kicks Left: " + striker.curKicks + "/" + striker.numKicks;
-                abilities.text = abilitiesText;
+                abilities.text = striker.abilitiesText;
             }else{
                 movesLeft.text = "";
                 kicksLeft.text = "";
@@ -182,7 +175,12 @@ class GameStatusBox extends FlxSpriteGroup
 
     public function setStatus(game:Game)
     {
-        score.text = "Score: " + game.redTeamScore + "-" + game.blueTeamScore;
+        if(Registry.currLevel < Registry.singlePlayerLevelStart) {
+            score.text = "Score: " + game.redTeamScore + "-" + game.blueTeamScore;
+        } else {
+            score.text = "";
+        }
+        
         turn.text = "Turn: " + (game.turn+1) + "/" + Registry.levelTurnsLimit[Registry.currLevel];
 
         if(game.turn % 2 == 0 || Registry.currLevel >= Registry.singlePlayerLevelStart)

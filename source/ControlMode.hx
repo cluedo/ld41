@@ -89,6 +89,20 @@ class ControlMode {
 		{
 			FlxG.camera.scroll.x += 10;
 		}
+
+        if(FlxG.keys.justPressed.I)
+        {
+            if(state.showInfo)
+            {
+                state._infoScreen.kill();
+                state.showInfo = false;
+            }
+            else
+            {
+                state._infoScreen.revive();
+                state.showInfo = true;
+            }
+        }
     }
 }
 
