@@ -20,6 +20,8 @@ class GridObject extends FlxSprite
     {
         this.grid = grid;
         this.actor = actor;
+        actor.gridObject = this;
+
 
         var X = grid.x + Grid.CELL_WIDTH * actor.x;
         var Y = grid.y + Grid.CELL_HEIGHT * actor.y;
@@ -59,7 +61,7 @@ class GridObject extends FlxSprite
             var target = animationQueue.shift();
             FlxTween.tween(this, 
                            {x:target.x, y:target.y}, 
-                           0.25, 
+                           0.25/(animationQueue.length + 1), 
 			               {onComplete: 
                                 function(tween:FlxTween)
                                 {
@@ -85,7 +87,6 @@ class GridPlayer extends GridObject
     public function new(grid:Grid, actor:Game.Actor)
     {
         super(grid, actor);
-        actor.gridObject = this;
         
         if(Std.is(actor, Game.Bruiser))
         {
