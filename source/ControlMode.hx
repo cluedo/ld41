@@ -99,6 +99,7 @@ class Selector extends FlxSprite
     public var selectionX:Int = -1;
     public var selectionY:Int = -1;
     private var _selectSound:FlxSound;
+    public var cameraTween:FlxTween;
 
     public function new(grid:Grid)
     {
@@ -141,7 +142,10 @@ class Selector extends FlxSprite
     }
 
     public function focusCamera(){
-        FlxTween.tween(FlxG.camera.scroll,
+        if(cameraTween != null) {
+            cameraTween.cancel();
+        }
+        cameraTween = FlxTween.tween(FlxG.camera.scroll,
                        {x:this.x + Grid.CELL_WIDTH/2 - 0.5*FlxG.camera.width, 
                         y:this.y + Grid.CELL_HEIGHT/2 - 0.5*FlxG.camera.height},
                        0.3);
