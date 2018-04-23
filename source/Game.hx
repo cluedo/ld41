@@ -459,6 +459,7 @@ class Bruiser extends Striker
         var target = game.getActor(x + dx, y + dy);    
         target.roll(dx, dy, kickPower);
         curKicks--;
+        _kickSound.play();
         return true;
     }
 
