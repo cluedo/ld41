@@ -44,7 +44,7 @@ class Registry
         "The basic striker unit can move 3 times a turn and kick the ball once",
         "Note that the striker can move after kicking",
         "Moving into the ball swaps the striker's position with the ball's",
-        "Moving around the ball efficiently is important to a strong offense"
+        "Moving around the ball efficiently is important to a strong offense",
         "Tactically using several striker together enables a very fast offense",
     ];
     public static var currLevel:Int = 0; 
