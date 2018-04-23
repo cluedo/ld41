@@ -17,13 +17,15 @@ class LevelSelect extends FlxState
 
 	var crazyText:FlxText;
     var normalText:FlxText;
-
+    var background:FlxSprite;
 	override public function create():Void
 	{
 		super.create();
 
 		bgColor = new FlxColor(0xFF009900);
-
+        background = new FlxSprite();
+        background.loadGraphic(AssetPaths.grass_big__png);
+        add(background);
 		titleText = new FlxText(40, 150, 0, "Select Field");
 		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
 		titleText.width += 10;

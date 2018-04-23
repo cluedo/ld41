@@ -17,13 +17,16 @@ class InitialScreen extends FlxState
     var helpText:FlxText;
 	var singleplayerText:FlxText;
 	var multiplayerText:FlxText;
-
+    var background:FlxSprite;
 	override public function create():Void
 	{
 		super.create();
 
 		bgColor = new FlxColor(0xFF009900);
 
+        background = new FlxSprite();
+        background.loadGraphic(AssetPaths.grass_big__png);
+        add(background);
 		titleText = new FlxText(40, 150, 0, "Crazy Football Game");
 		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
 		titleText.width += 10;
@@ -48,7 +51,8 @@ class InitialScreen extends FlxState
 		{
             // not really implemented yet, but the idea is that levels
             // over some constant n are single player levels
-		    Registry.currLevel = Registry.singlePlayerLevelStart;
+		     Registry.currLevel = Registry.singlePlayerLevelStart;
+            //Registry.currLevel = 9;
 			FlxG.switchState(new PlayState());
 		}
 		if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(multiplayerText))

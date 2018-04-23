@@ -15,13 +15,15 @@ class EndScreen extends FlxState
 {
 	var titleText:FlxText;
     var helpText:FlxText;
-
+    var background:FlxSprite;
 	override public function create():Void
 	{
 		super.create();
 
 		bgColor = new FlxColor(0xFF009900);
-
+        background = new FlxSprite();
+        background.loadGraphic(AssetPaths.grass_end__png);
+        add(background);
 		titleText = new FlxText(40, 150, 0, "Congratulations! You've completed \n
             the single player mode");
 		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
