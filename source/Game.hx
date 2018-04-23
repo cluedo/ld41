@@ -271,6 +271,11 @@ class Actor
     {
         return;
     }
+
+    public function getName():String
+    {
+        return "";
+    }
 }
 
 class Striker extends Actor
@@ -418,6 +423,11 @@ class Striker extends Actor
         curKicks = numKicks;
         curMoves = numMoves;
     }
+
+    public override function getName()
+    {
+        return "Striker";
+    }
 }
 
 class Bruiser extends Striker
@@ -463,7 +473,9 @@ class Bruiser extends Striker
         return true;
     }
 
-
+    public override function getName(){
+        return "Bruiser";
+    }
 }
 
 
@@ -510,7 +522,10 @@ class SkaterBoy extends Striker
         return true;
     }
 
-
+    public override function getName()
+    {
+        return "Skater\n Boy";
+    }
 }
 
 class Ball extends Actor
@@ -521,6 +536,11 @@ class Ball extends Actor
         super(x, y, Team.NONE);
 
         canScore = true;
+    }
+
+    public override function getName()
+    {
+        return "Ball";
     }
 
 }

@@ -130,15 +130,12 @@ class Selector extends FlxSprite
         x = grid.x + selectionX*Grid.CELL_WIDTH;
         y = grid.y + selectionY*Grid.CELL_HEIGHT;
         _selectSound.play();
+        Registry.hud.updateHUD();
     }
 
     public function selectSquare(square:Int)
     {
-        this.selectionX = square % grid.gridWidth;
-        this.selectionY = Math.floor(square / grid.gridWidth);
-        x = grid.x + selectionX*Grid.CELL_WIDTH;
-        y = grid.y + selectionY*Grid.CELL_HEIGHT;
-        _selectSound.play();
+        selectXY(square % grid.gridWidth, Math.floor(square / grid.gridWidth));
     }
 
     public function focusCamera(){
@@ -253,6 +250,7 @@ class SelectionControlMode extends ControlMode {
 		if(FlxG.keys.justPressed.SPACE)
 		{
 			state._level.game.endTurn();
+            Registry.hud.updateHUD();
 		}
     }
 }
