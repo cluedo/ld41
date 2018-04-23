@@ -209,6 +209,7 @@ class Actor
         {
             if(fieldType == FieldType.BLUE_GOAL)
             {
+                game.moveActor(this, nx, ny);
                 game.redTeamScore = game.redTeamScore + 1;
                 _applauseSound.play();
                 Registry.freezeInput = true;
@@ -217,17 +218,16 @@ class Actor
                 }
                 else {
                     new FlxTimer().start(3,unfreezeInput,1);
-                    game.moveActor(this, startX, startY);
                 }
                 return;
             }
             else if(fieldType == FieldType.RED_GOAL)
             {
+                game.moveActor(this, nx, ny);
                 game.blueTeamScore = game.blueTeamScore + 1;
                 _applauseSound.play();
                 Registry.freezeInput = true;
                 new FlxTimer().start(3,unfreezeInput,1);
-                game.moveActor(this, startX, startY);
                 return;
             }
         }
@@ -259,6 +259,7 @@ class Actor
 
     public function unfreezeInput(timer:FlxTimer) {
         Registry.freezeInput = false;
+        game.moveActor(this, startX, startY);
     }
 
     public function hasMoves():Bool
