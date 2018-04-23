@@ -9,7 +9,7 @@ class Registry
     public static var singlePlayerLevelStart = 2;
     public static var levelList:Array<String> = [
         AssetPaths.crazy_level__tmx,
-        AssetPaths.more_units__tmx,
+        AssetPaths.normal_level__tmx,
         // single player levels start here
         AssetPaths.striker_intro_1__tmx,
         AssetPaths.striker_intro_2__tmx,
@@ -18,6 +18,7 @@ class Registry
         AssetPaths.multi_striker_challenge__tmx,
         AssetPaths.bruiser_intro__tmx,
         AssetPaths.bruiser_intro_2__tmx,
+        AssetPaths.challenge_1__tmx,
         ];
     public static var levelGoalTarget:Array<Int> = [
         999,
@@ -42,6 +43,7 @@ class Registry
         1,
         1,
         1,
+        1,
     ];
     public static var levelHelpText:Array<String> = [
         "Score as many goals as possible in 20 turns",
@@ -54,6 +56,7 @@ class Registry
         "Tactically using several striker together enables a very fast offense",
         "Bruisers can move enemy players out of the way by moving into them or kicking them away",
         "Bruisers can also kick your own players",
+        "Complicated situations like this happen frequently in multiplayer"
     ];
     public static var currLevel:Int = 0; 
     
