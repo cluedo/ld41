@@ -375,7 +375,12 @@ class Striker extends Actor
             return false;
         if(!Std.is(target, Ball))
             return false;
-
+        
+        if(game.getActor(x + 2*dx, y + 2*dy) != null)
+            return false;
+        if(game.getField(x + 2*dx, y + 2*dy) == FieldType.WALL || game.getField(x + 2*dx, y + 2*dy) == FieldType.INVALID)
+            return false;
+        
         return true;
     }
 
@@ -470,7 +475,12 @@ class Bruiser extends Striker
         var target = game.getActor(x + dx, y + dy);
         if(target == null || Std.is(target, Ball) || target == this)
             return false;
-
+        
+        if(game.getActor(x + 2*dx, y + 2*dy) != null)
+            return false;
+        if(game.getField(x + 2*dx, y + 2*dy) == FieldType.WALL || game.getField(x + 2*dx, y + 2*dy) == FieldType.INVALID)
+            return false;
+        
         return true;
     }
 
