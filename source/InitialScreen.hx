@@ -54,10 +54,7 @@ class InitialScreen extends FlxState
 		super.update(elapsed);
 		if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(singleplayerText))
 		{
-            // not really implemented yet, but the idea is that levels
-            // over some constant n are single player levels
-		     Registry.currLevel = Registry.singlePlayerLevelStart;
-            //Registry.currLevel = 9;
+		    Registry.currLevel = Registry.singlePlayerLevelStart;
 			_selectSound.play();
 			FlxG.switchState(new PlayState());
 		}
