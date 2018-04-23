@@ -182,7 +182,12 @@ class GameStatusBox extends FlxSpriteGroup
 
     public function setStatus(game:Game)
     {
-        score.text = "Score: " + game.redTeamScore + "-" + game.blueTeamScore;
+        if(Registry.currLevel < Registry.singlePlayerLevelStart) {
+            score.text = "Score: " + game.redTeamScore + "-" + game.blueTeamScore;
+        } else {
+            score.text = "";
+        }
+        
         turn.text = "Turn: " + (game.turn+1) + "/" + Registry.levelTurnsLimit[Registry.currLevel];
 
         if(game.turn % 2 == 0 || Registry.currLevel >= Registry.singlePlayerLevelStart)
