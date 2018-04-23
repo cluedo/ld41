@@ -17,6 +17,9 @@ class PlayState extends FlxState
     public var _grid:Grid;
 
 	public var _hud:HUD;
+
+	public var showInfo:Bool = false;
+	public var _infoScreen:InfoScreen;
     var background:FlxBackdrop;
 	public var currentControlMode:ControlMode.ControlMode;
 	public var topControlMode:ControlMode.SelectionControlMode;
@@ -49,6 +52,9 @@ class PlayState extends FlxState
 		_hud = new HUD(this);
 		add(_hud);
 		Registry.hud = _hud;
+
+		_infoScreen = new InfoScreen();
+		add(_infoScreen);
 		
 		if(FlxG.camera.width < Grid.CELL_WIDTH * _grid.gridWidth) {
 			FlxG.camera.minScrollX = Grid.CELL_WIDTH/2 - FlxG.camera.width/2;
