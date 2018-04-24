@@ -45,7 +45,7 @@ class GridObject extends FlxSprite
                 if(Std.is(actor, Game.Striker))
                 {
                     var striker:Game.Striker = cast actor;
-                    if(striker.curMoves == 0)
+                    if(striker.curMoves == 0 && striker.curKicks == 0)
                     {
                         alpha = 0.5;
                     }
