@@ -29,7 +29,7 @@ class InitialScreen extends FlxState
 		bgColor = new FlxColor(0xFF009900);
         background = new FlxBackdrop(AssetPaths.grass_dark__png);
         add(background);
-		titleText = new FlxText(140, 150, 0, "Final Football: Tactics");
+		titleText = new FlxText(140, 150, 0, "Final Football Tactics");
 		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
 		titleText.width += 10;
 		add(titleText);
