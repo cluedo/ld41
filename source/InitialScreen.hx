@@ -29,18 +29,18 @@ class InitialScreen extends FlxState
 		bgColor = new FlxColor(0xFF009900);
         background = new FlxBackdrop(AssetPaths.grass_dark__png);
         add(background);
-		titleText = new FlxText(140, 150, 0, "Final Football Tactics");
-		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
+		titleText = new FlxText(0, 150, 1024, "Final Football Tactics");
+		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED, FlxTextAlign.CENTER);
 		titleText.width += 10;
 		add(titleText);
-		helpText = new FlxText(300, 200, 0, "Click mode to start");
-		helpText.setFormat(AssetPaths.Action_Man__ttf, 16, FlxColor.WHITE);
+		helpText = new FlxText(0, 200, 1024, "Click mode to start");
+		helpText.setFormat(AssetPaths.Action_Man__ttf, 16, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(helpText);
-        singleplayerText = new FlxText(300, 250, 0, "Single player");
-		singleplayerText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
+        singleplayerText = new FlxText(0, 250, 1024, "Single player");
+		singleplayerText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(singleplayerText);
-        multiplayerText = new FlxText(300, 350, 0, "Multiplayer");
-		multiplayerText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
+        multiplayerText = new FlxText(0, 350, 1024, "Multiplayer");
+		multiplayerText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(multiplayerText);
 
 		Registry.currLevel = 0;

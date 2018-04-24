@@ -18,9 +18,9 @@ class InfoScreen extends FlxSpriteGroup
 
     var textWidth = 650;
 
-    var strikerY = 215;
-    var bruiserY = 360;
-    var skaterY = 505;
+    var strikerY = 235;
+    var bruiserY = 380;
+    var skaterY = 525;
 
 	public function new()
 	{
@@ -33,9 +33,10 @@ class InfoScreen extends FlxSpriteGroup
         addText(30, 80, "- Use WASD or the mouse to pan the camera.");
         addText(30, 100, "- Press M when selecting a unit to move it.");
         addText(30, 120, "- Press K when selecting a unit to kick.");
-        addText(30, 140, "- Press X to cancel a move or kick that's in progress.");
+        addText(30, 140, "- Press X or escape to cancel a move or kick that's in progress.");
+        addText(30, 160, "- Press Ctrl+Q to exit to the main menu.");
 
-        addTitle(25, 170, "Units");
+        addTitle(25, 190, "Units");
 
         addPic(30, strikerY, AssetPaths.red_striker__png);
         addText(100, strikerY + 5, "Striker", 20);

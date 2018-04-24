@@ -30,25 +30,25 @@ class LevelSelect extends FlxState
 		bgColor = new FlxColor(0xFF009900);
         background = new FlxBackdrop(AssetPaths.grass_dark__png);
         add(background);
-		titleText = new FlxText(140, 150, 0, "Select Field");
-		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
+		titleText = new FlxText(0, 150, 1024, "Select Field");
+		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED, FlxTextAlign.CENTER);
 		titleText.width += 10;
 		add(titleText);
 
-        normalText = new FlxText(300, 250, 0, "Standard");
-		normalText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
+        normalText = new FlxText(0, 250, 1024, "Standard");
+		normalText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(normalText);
 
-        twoballText = new FlxText(300, 300, 0, "Two Balls");
-		twoballText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
+        twoballText = new FlxText(0, 300, 1024, "Two Balls");
+		twoballText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(twoballText);
 
-        smallgoalsText = new FlxText(300, 350, 0, "Small Goals");
-		smallgoalsText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
+        smallgoalsText = new FlxText(0, 350, 1024, "Small Goals");
+		smallgoalsText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(smallgoalsText);
 
-        manywallsText = new FlxText(300, 400, 0, "Many Walls");
-		manywallsText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
+        manywallsText = new FlxText(0, 400, 1024, "Many Walls");
+		manywallsText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(manywallsText);
 	}
 
