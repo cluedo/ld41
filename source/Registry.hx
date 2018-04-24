@@ -72,7 +72,7 @@ class Registry
         "On each turn, the basic striker unit can move 3 times and kick the ball once. Press Space to move to the next turn.",
         "Strikers can perform the actions of one turn in any order. Press R to restart the current level.",
         "A striker can move into the ball to switch positions with it.",
-        "Press Q and E to switch between levels that you've unlocked. Your progress is saved automatically.",
+        "Press Q or E to switch between levels that you've unlocked. Your progress is saved automatically.",
         "Press Tab to switch between the strikers on your team.",
         "Bruisers can't kick the ball, but they can kick players. They can also switch positions with players by moving into them.",
         "",
