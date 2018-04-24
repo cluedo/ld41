@@ -85,7 +85,7 @@ class Registry
         "Bruisers can't kick the ball, but they can kick players. They can also move into players to swap positions with them.",
         "",
         "",
-        "Skater boys move in a straight line until they hit an obstacle.",
+        "Skater boys move in a straight line until they hit an obstacle.\n\nPress I for a summary of all the rules.",
         "Unlike strikers and bruisers, skater boys can't swap positions with the ball by moving into it.",
         "Complicated situations like this happen frequently in multiplayer.",
     ];
