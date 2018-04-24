@@ -14,13 +14,16 @@ class MusicUtils {
         if(m == currentMusic) {
             return;
         }
-        currentMusic = m;
 
         if(FlxG.sound.music != null && FlxG.sound.music.playing) {
-            FlxG.sound.music.fadeOut(FADE_TIME, 0, function(tween:FlxTween) {
+            FlxG.sound.music.fadeOut(FlxG.sound.music.volume * FADE_TIME, 0, function(tween:FlxTween) {
+                FlxG.sound.music.volume = 1;
                 startMusic(m, loopPoint);
+                currentMusic = m;
             });
         } else {
+            if(FlxG.sound.music != null)
+                FlxG.sound.music.volume = 1;
             startMusic(m, loopPoint);
         }
     }
