@@ -613,8 +613,8 @@ class SkaterBoy extends Striker
                         " - K: kick\n\n" +
                         "Skater boys move\n" +
                         "in a straight line\n" +
-                        "until they hit\n" +
-                        "something. Unlike\n" +
+                        "until they hit an\n" +
+                        "obstacle. Unlike\n" +
                         "other units, they\n" +
                         "can't swap positions\n" +
                         "with the ball.\n" +

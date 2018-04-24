@@ -25,19 +25,19 @@ class MultiplayerEnd extends FlxState
         background = new FlxBackdrop(AssetPaths.grass_dark__png);
         add(background);
         if(Registry.endType == "blue") {
-            titleText = new FlxText(40, 150, 0, "Blue team won!");
+            titleText = new FlxText(0, 150, 1024, "Blue team won!");
         }
         if(Registry.endType == "red") {
-            titleText = new FlxText(40, 150, 0, "Red team won!");
+            titleText = new FlxText(0, 150, 1024, "Red team won!");
         }
         if(Registry.endType == "draw") {
-            titleText = new FlxText(40, 150, 0, "The game ended in a draw!");
+            titleText = new FlxText(0, 150, 1024, "The game ended in a draw!");
         }
-		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
+		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED, FlxTextAlign.CENTER);
 		titleText.width += 10;
 		add(titleText);
-		helpText = new FlxText(300, 250, 0, "Click anywhere or press [SPACE] to head back to the title screen");
-		helpText.setFormat(AssetPaths.Action_Man__ttf, 16, FlxColor.WHITE);
+		helpText = new FlxText(0, 250, 1024, "Click anywhere or press [SPACE] to head back to the title screen");
+		helpText.setFormat(AssetPaths.Action_Man__ttf, 16, FlxColor.WHITE, FlxTextAlign.CENTER);
 		add(helpText);
 
 		Registry.currLevel = 0;

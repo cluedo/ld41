@@ -109,7 +109,10 @@ class ControlMode {
     }
 
     public function checkPrevNextRestart() {
-        if(FlxG.keys.justPressed.R) {
+        if (FlxG.keys.justPressed.Q && FlxG.keys.pressed.CONTROL) {
+            _selectSound.play();
+            FlxG.switchState(new InitialScreen());
+        } else if(FlxG.keys.justPressed.R) {
             if(Game.restartLevel()){
                 _selectSound.play();
             } else {
@@ -585,6 +588,7 @@ class MovementControlMode extends ControlMode {
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
             eraseArrows();
+            _badSelectionSound.play();
         } else {
             checkPrevNextRestart();
         }
@@ -657,6 +661,7 @@ class KickControlMode extends ControlMode {
             state.remove(kickBounds);
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
+            _badSelectionSound.play();
         } else {
             checkPrevNextRestart();
         }
