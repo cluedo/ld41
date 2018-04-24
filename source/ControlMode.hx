@@ -110,19 +110,19 @@ class ControlMode {
 
     public function checkPrevNextRestart() {
         if(FlxG.keys.justPressed.R) {
-            if(Game.restartLevel(0)){
+            if(Game.restartLevel()){
                 _selectSound.play();
             } else {
                 _badSelectionSound.play();
             }
         } else if (FlxG.keys.justPressed.Q){
-            if(Game.prevLevel(0)){
+            if(Game.prevLevel()){
                 _selectSound.play();
             } else {
                 _badSelectionSound.play();
             }
         } else if (FlxG.keys.justPressed.E) {
-            if(Game.nextLevelIfUnlocked(0)){
+            if(Game.nextLevelIfUnlocked()){
                 _selectSound.play();
             } else {
                 _badSelectionSound.play();

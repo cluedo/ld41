@@ -89,36 +89,28 @@ class Game
         }
     }
     
-    public static function prevLevel(time:Float):Bool {
-         if(Registry.currLevel > Registry.singlePlayerLevelStart) {
-            Registry.freezeInput = true;
-            new FlxTimer().start(time, function(t:FlxTimer){
-                Registry.currLevel -= 1;
-                Registry.freezeInput = false;
-                FlxG.switchState(new PlayState());
-            }, 1);
+    public static function prevLevel():Bool {
+        if(Registry.currLevel > Registry.singlePlayerLevelStart) {
+            Registry.currLevel -= 1;
+            FlxG.switchState(new PlayState());
             return true;
         }
         return false;
     }
 
-    public static function restartLevel(time:Float) {
+    public static function restartLevel() {
         if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
-            Registry.freezeInput = true;
-            new FlxTimer().start(time, function(t:FlxTimer){
-                Registry.freezeInput = false;
-                FlxG.switchState(new PlayState());
-            }, 1);
+            FlxG.switchState(new PlayState());
             return true;
         }
         return false;
     }
     
-    public static function nextLevelIfUnlocked(time:Float):Bool {
+    public static function nextLevelIfUnlocked():Bool {
         var save:FlxSave = new FlxSave();
         save.bind(SAVE_NAME);
         if(save.data.lastLevelUnlocked != null && Registry.currLevel < cast(save.data.lastLevelUnlocked, Int)) {
-            return nextLevel(time);
+            return nextLevel(0);
         }
         return false;
     }
@@ -126,7 +118,8 @@ class Game
     {
         if(Registry.currLevel >= Registry.singlePlayerLevelStart && Registry.currLevel < (Registry.levelList.length - 1)) {
             Registry.freezeInput = true;
-            new FlxTimer().start(time, function(t:FlxTimer){
+            
+            var doNext:FlxTimer->Void = function(t:FlxTimer){
                 Registry.currLevel += 1;
                 Registry.freezeInput = false;
                 
@@ -138,12 +131,26 @@ class Game
                 save.flush();
 
                 FlxG.switchState(new PlayState());
-            }, 1);
+            };
+            
+
+            if(time > 0) {
+                new FlxTimer().start(time, doNext, 1);
+            } else {
+                doNext(null);
+            }
+
             return true;
         } else if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
-            new FlxTimer().start(time, function(t:FlxTimer){
+            var doNext:FlxTimer->Void = function(t:FlxTimer){
                 FlxG.switchState(new EndScreen());
-            }, 1);
+            };
+
+            if(time > 0) {
+                new FlxTimer().start(time, doNext, 1);
+            } else {
+                doNext(null);
+            }
         }
         return false;
     }
@@ -200,7 +207,7 @@ class Game
     {
         if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
             if(Std.int(turn/2)+1 >= Registry.levelTurnsLimit[Registry.currLevel]) {
-                restartLevel(0);
+                restartLevel();
             }
         }
         for(actor in actors)

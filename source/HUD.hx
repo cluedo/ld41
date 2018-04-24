@@ -181,7 +181,11 @@ class GameStatusBox extends FlxSpriteGroup
             score.text = "";
         }
         
-        turn.text = "Turn: " + (game.turn+1) + "/" + Registry.levelTurnsLimit[Registry.currLevel];
+        if(game.turn + 1 <=  Registry.levelTurnsLimit[Registry.currLevel]) {
+            turn.text = "Turn: " + (game.turn+1) + "/" + Registry.levelTurnsLimit[Registry.currLevel];
+        } else {
+            turn.text = "Turn: " + Registry.levelTurnsLimit[Registry.currLevel] + "/" + Registry.levelTurnsLimit[Registry.currLevel];
+        }
 
         if(game.turn % 2 == 0 || Registry.currLevel >= Registry.singlePlayerLevelStart)
         {
