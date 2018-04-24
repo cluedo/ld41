@@ -39,7 +39,7 @@ class Game
 
     public var redTeam:Array<Actor>;
     public var blueTeam:Array<Actor>;
-    public var ball:Ball;
+    public var balls:Array<Ball>;
 
     public var redTeamScore:Int;
     public var blueTeamScore:Int;
@@ -61,6 +61,7 @@ class Game
 
         redTeam = new Array<Actor>();
         blueTeam = new Array<Actor>();
+        balls = new Array<Ball>();
 
         redTeamScore = 0;
         blueTeamScore = 0;
@@ -70,7 +71,7 @@ class Game
 
     public function addBall(ball:Ball)
     {
-        this.ball = ball;
+        balls.push(ball);
         addActor(ball);
     }
 
@@ -208,6 +209,22 @@ class Game
         if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
             if(Std.int(turn/2)+1 >= Registry.levelTurnsLimit[Registry.currLevel]) {
                 restartLevel();
+            }
+        }
+        if(Registry.currLevel < Registry.singlePlayerLevelStart) {
+            if(turn+1 >= Registry.levelTurnsLimit[Registry.currLevel]) {
+                if(redTeamScore > blueTeamScore) {
+                    Registry.endType = "red";
+                    FlxG.switchState(new MultiplayerEnd());
+                }
+                if(redTeamScore < blueTeamScore) {
+                    Registry.endType = "blue";
+                    FlxG.switchState(new MultiplayerEnd());
+                }
+                if(redTeamScore == blueTeamScore) {
+                    Registry.endType = "draw";
+                    FlxG.switchState(new MultiplayerEnd());
+                }
             }
         }
         for(actor in actors)

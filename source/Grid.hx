@@ -47,10 +47,11 @@ class Grid extends FlxSprite
     public static function fromGame(game:Game):Grid
     {
         var grid = new Grid(game.width, game.height);
-
-        var ball = new GridObject.GridBall(grid, game.ball);
-        grid.gridObjects.push(ball);
-
+        
+        for(ball in game.balls) {
+            var ball = new GridObject.GridBall(grid, ball);
+            grid.gridObjects.push(ball);
+        }
         for(redTeammate in game.redTeam)
         {
             var player = new GridObject.GridPlayer(grid, redTeammate);
