@@ -4,7 +4,7 @@ class Registry
 {
     public static var GRID_SIZE = 64;
     public static var freezeInput = false;
-
+    public static var endType = "draw";
     public static var hud:HUD;
 
     // this is the index of the first single player level in the below arrays

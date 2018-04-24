@@ -10,6 +10,7 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.math.FlxMath;
+import flixel.addons.display.FlxBackdrop;
 
 class LevelSelect extends FlxState
 {
@@ -18,8 +19,7 @@ class LevelSelect extends FlxState
     var twoballText:FlxText;
     var smallgoalsText:FlxText;
     var manywallsText:FlxText;
-
-    var background:FlxSprite;
+    var background:FlxBackdrop;
 	private var _selectSound:FlxSound;
 
 	override public function create():Void
@@ -28,10 +28,9 @@ class LevelSelect extends FlxState
 		_selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
 
 		bgColor = new FlxColor(0xFF009900);
-        background = new FlxSprite();
-        background.loadGraphic(AssetPaths.grass_big__png);
+        background = new FlxBackdrop(AssetPaths.grass_dark__png);
         add(background);
-		titleText = new FlxText(40, 150, 0, "Select Field");
+		titleText = new FlxText(140, 150, 0, "Select Field");
 		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
 		titleText.width += 10;
 		add(titleText);
