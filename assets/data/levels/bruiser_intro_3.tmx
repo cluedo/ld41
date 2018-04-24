@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="11" height="7" tilewidth="64" tileheight="64" infinite="0" nextobjectid="59">
+ <layer name="Tile Layer 1" width="11" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Strikers">
+  <object id="53" name="RED" x="321" y="134" width="57" height="51"/>
+  <object id="54" name="BLUE" x="256" y="192" width="45" height="44"/>
+  <object id="55" name="BLUE" x="201.5" y="199" width="45" height="44"/>
+  <object id="56" name="BLUE" x="325.5" y="204" width="45" height="44"/>
+ </objectgroup>
+ <objectgroup name="Bruisers">
+  <object id="57" name="RED" x="264" y="11" width="53" height="48"/>
+ </objectgroup>
+ <objectgroup name="Goals">
+  <object id="18" name="BLUE" x="131" y="194" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Balls">
+  <object id="1" name="ball" x="386" y="195" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Walls"/>
+</map>

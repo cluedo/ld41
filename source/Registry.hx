@@ -22,6 +22,7 @@ class Registry
         AssetPaths.multi_striker_challenge__tmx,
         AssetPaths.bruiser_intro__tmx,
         AssetPaths.bruiser_intro_2__tmx,
+        AssetPaths.bruiser_intro_3__tmx,
         AssetPaths.skater_intro__tmx,
         AssetPaths.skater_intro_2__tmx,
         AssetPaths.challenge_1__tmx,
@@ -32,6 +33,7 @@ class Registry
         999,
         999,
         // single player levels start here
+        1,
         1,
         1,
         1,
@@ -59,6 +61,7 @@ class Registry
         1,
         1,
         1,
+        1,
     ];
     public static var levelHelpText:Array<String> = [
         "Score as many goals as possible in 20 turns.",
@@ -72,6 +75,7 @@ class Registry
         "Press Q and E to switch between levels that you've unlocked. Your progress is saved automatically.",
         "Press Tab to switch between the strikers on your team.",
         "Bruisers can't kick the ball, but they can kick players. They can also switch positions with players by moving into them.",
+        "",
         "",
         "Skaters move in a straight line until they hit an obstacle. Unlike strikers and bruisers, they can't swap positions with the ball by moving into it.",
         "",
