@@ -78,13 +78,13 @@ class Registry
         "On each turn, the basic striker unit can move 3 times and kick the ball once. You get two turns for this level; press Space to move to the next turn.",
         "Strikers can perform the actions of one turn in any order (so you can move, then kick, then move). Press R to restart the current level.",
         "A striker can move into the ball to switch positions with it.",
-        "Press Q and E to switch between levels that you've unlocked. Your progress is saved automatically.",
+        "Press Q or E to switch between levels that you've unlocked. Your progress is saved automatically.",
         "Press Tab to switch between the strikers on your team.",
         "Bruisers can't kick the ball, but they can kick players. They can also switch positions with players by moving into them.",
         "",
         "",
-        "Skaters move in a straight line until they hit an obstacle. Unlike strikers and bruisers, they can't swap positions with the ball by moving into it.",
-        "",
+        "Skater boys move in a straight line until they hit an obstacle.",
+        "Unlike strikers and bruisers, skater boys can't swap positions with the ball by moving into it.",
         "Complicated situations like this happen frequently in multiplayer.",
     ];
     public static var currLevel:Int = 0; 

@@ -10,6 +10,5 @@ class Main extends Sprite
 	{
 		super();
 		addChild(new FlxGame(1024, 768, InitialScreen, 1, 60, 60, true));
-		
 	}
 }

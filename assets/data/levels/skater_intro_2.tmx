@@ -14,7 +14,7 @@
 </data>
  </layer>
  <objectgroup name="Strikers">
-  <object id="29" name="RED" x="448" y="192" width="64" height="64"/>
+  <object id="29" name="RED" x="640" y="0" width="64" height="64"/>
  </objectgroup>
  <objectgroup name="SkaterBoys">
   <object id="38" name="RED" x="960" y="128" width="64" height="64"/>
