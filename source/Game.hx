@@ -39,7 +39,7 @@ class Game
 
     public var redTeam:Array<Actor>;
     public var blueTeam:Array<Actor>;
-    public var ball:Ball;
+    public var balls:Array<Ball>;
 
     public var redTeamScore:Int;
     public var blueTeamScore:Int;
@@ -61,6 +61,7 @@ class Game
 
         redTeam = new Array<Actor>();
         blueTeam = new Array<Actor>();
+        balls = new Array<Ball>();
 
         redTeamScore = 0;
         blueTeamScore = 0;
@@ -70,7 +71,7 @@ class Game
 
     public function addBall(ball:Ball)
     {
-        this.ball = ball;
+        balls.push(ball);
         addActor(ball);
     }
 
