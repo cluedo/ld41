@@ -588,6 +588,7 @@ class MovementControlMode extends ControlMode {
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
             eraseArrows();
+            _badSelectionSound.play();
         } else {
             checkPrevNextRestart();
         }
@@ -660,6 +661,7 @@ class KickControlMode extends ControlMode {
             state.remove(kickBounds);
             state.currentControlMode = parent;
             state.topControlMode.sourceSelector.focusCamera();
+            _badSelectionSound.play();
         } else {
             checkPrevNextRestart();
         }
