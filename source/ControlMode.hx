@@ -109,7 +109,10 @@ class ControlMode {
     }
 
     public function checkPrevNextRestart() {
-        if(FlxG.keys.justPressed.R) {
+        if (FlxG.keys.justPressed.Q && FlxG.keys.pressed.CONTROL) {
+            _selectSound.play();
+            FlxG.switchState(new InitialScreen());
+        } else if(FlxG.keys.justPressed.R) {
             if(Game.restartLevel()){
                 _selectSound.play();
             } else {
