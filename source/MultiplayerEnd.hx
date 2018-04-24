@@ -12,22 +12,27 @@ import flixel.util.FlxColor;
 import flixel.math.FlxMath;
 import flixel.addons.display.FlxBackdrop;
 
-class EndScreen extends FlxState
+class MultiplayerEnd extends FlxState
 {
 	var titleText:FlxText;
     var helpText:FlxText;
     var background:FlxBackdrop;
-	private var _selectSound:FlxSound;
-
 	override public function create():Void
 	{
 		super.create();
-        _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
 
 		bgColor = new FlxColor(0xFF009900);
         background = new FlxBackdrop(AssetPaths.grass_dark__png);
         add(background);
-		titleText = new FlxText(40, 150, 0, "Congratulations!\nYou've finished the single player mode");
+        if(Registry.endType == "blue") {
+            titleText = new FlxText(40, 150, 0, "Blue team won!");
+        }
+        if(Registry.endType == "red") {
+            titleText = new FlxText(40, 150, 0, "Red team won!");
+        }
+        if(Registry.endType == "draw") {
+            titleText = new FlxText(40, 150, 0, "The game ended in a draw!");
+        }
 		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
 		titleText.width += 10;
 		add(titleText);
@@ -43,7 +48,6 @@ class EndScreen extends FlxState
 		super.update(elapsed);
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
-			_selectSound.play();
 			FlxG.switchState(new InitialScreen());
 		}
 	}

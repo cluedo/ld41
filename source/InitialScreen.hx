@@ -10,6 +10,7 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.math.FlxMath;
+import flixel.addons.display.FlxBackdrop;
 
 class InitialScreen extends FlxState
 {
@@ -17,7 +18,7 @@ class InitialScreen extends FlxState
     var helpText:FlxText;
 	var singleplayerText:FlxText;
 	var multiplayerText:FlxText;
-    var background:FlxSprite;
+    var background:FlxBackdrop;
 	private var _selectSound:FlxSound;
 
 	override public function create():Void
@@ -26,21 +27,19 @@ class InitialScreen extends FlxState
         _selectSound = FlxG.sound.load(AssetPaths.select__wav, 0.3);
 
 		bgColor = new FlxColor(0xFF009900);
-
-        background = new FlxSprite();
-        background.loadGraphic(AssetPaths.grass_big__png);
+        background = new FlxBackdrop(AssetPaths.grass_dark__png);
         add(background);
-		titleText = new FlxText(40, 150, 0, "Crazy Football Game");
+		titleText = new FlxText(140, 150, 0, "Crazy Football Game");
 		titleText.setFormat(AssetPaths.Action_Man__ttf, 48, FlxColor.RED);
 		titleText.width += 10;
 		add(titleText);
 		helpText = new FlxText(300, 200, 0, "Click mode to start");
 		helpText.setFormat(AssetPaths.Action_Man__ttf, 16, FlxColor.WHITE);
 		add(helpText);
-        singleplayerText = new FlxText(300, 350, 0, "Single player");
+        singleplayerText = new FlxText(300, 250, 0, "Single player");
 		singleplayerText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
 		add(singleplayerText);
-        multiplayerText = new FlxText(300, 450, 0, "Multiplayer");
+        multiplayerText = new FlxText(300, 350, 0, "Multiplayer");
 		multiplayerText.setFormat(AssetPaths.Action_Man__ttf, 32, FlxColor.WHITE);
 		add(multiplayerText);
 

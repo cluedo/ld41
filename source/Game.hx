@@ -204,6 +204,22 @@ class Game
                 restartLevel(0);
             }
         }
+        if(Registry.currLevel < Registry.singlePlayerLevelStart) {
+            if(turn+1 >= Registry.levelTurnsLimit[Registry.currLevel]) {
+                if(redTeamScore > blueTeamScore) {
+                    Registry.endType = "red";
+                    FlxG.switchState(new MultiplayerEnd());
+                }
+                if(redTeamScore < blueTeamScore) {
+                    Registry.endType = "blue";
+                    FlxG.switchState(new MultiplayerEnd());
+                }
+                if(redTeamScore == blueTeamScore) {
+                    Registry.endType = "draw";
+                    FlxG.switchState(new MultiplayerEnd());
+                }
+            }
+        }
         for(actor in actors)
         {
             if(actor!=null)
