@@ -232,8 +232,8 @@ class Game
                     Registry.endType = "draw";
                     FlxG.switchState(new MultiplayerEnd());
                 }
+                lost = true;
             }
-            lost = true;
         }
         for(actor in actors)
         {
