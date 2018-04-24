@@ -45,6 +45,8 @@ class Game
     public var blueTeamScore:Int;
 
     public static var SAVE_NAME = "save";
+    private static var _lose_sound;
+    private static var _end_turn_sound;
 
     public function new(width:Int, height:Int)
     {
@@ -67,6 +69,8 @@ class Game
         blueTeamScore = 0;
 
         turn = 0;
+        _end_turn_sound = FlxG.sound.load(AssetPaths.endTurn__wav, 0.3);
+        _lose_sound = FlxG.sound.load(AssetPaths.gameLoss__wav, 0.3);
     }
 
     public function addBall(ball:Ball)
@@ -206,9 +210,12 @@ class Game
 
     public function endTurn()
     {
+        var lost:Bool = false;
         if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
             if(Std.int(turn/2)+1 >= Registry.levelTurnsLimit[Registry.currLevel]) {
+                _lose_sound.play();
                 restartLevel();
+                lost = true;
             }
         }
         if(Registry.currLevel < Registry.singlePlayerLevelStart) {
@@ -226,11 +233,15 @@ class Game
                     FlxG.switchState(new MultiplayerEnd());
                 }
             }
+            lost = true;
         }
         for(actor in actors)
         {
             if(actor!=null)
                 actor.endTurn();
+        }
+        if(!lost){
+            _end_turn_sound.play();
         }
         turn++;
     }
