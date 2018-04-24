@@ -15,6 +15,8 @@ class Registry
         AssetPaths.small_goals__tmx,
         AssetPaths.many_walls__tmx,
         // single player levels start here
+        AssetPaths.striker_intro_0__tmx,
+        AssetPaths.striker_intro_05__tmx,
         AssetPaths.striker_intro_1__tmx,
         AssetPaths.striker_intro_2__tmx,
         AssetPaths.moving_through_ball_intro__tmx,
@@ -51,6 +53,8 @@ class Registry
         20,
         20,
         // single player levels start here
+        1,
+        1,
         2,
         2,
         1,
@@ -69,8 +73,10 @@ class Registry
         "Score as many goals as possible in 20 turns.",
         "Score as many goals as possible in 20 turns.",
         // single player levels start here
-        "On each turn, the basic striker unit can move 3 times and kick the ball once. Press Space to move to the next turn.",
-        "Strikers can perform the actions of one turn in any order. Press R to restart the current level.",
+        "Welcome to Final Football Tactics! To kick the ball into the goal, choose your player, press K, and then select the ball and press K.",
+        "You need to be next to the ball to kick it. To move your player, select them and press M. Then use the arrow keys and press M to confirm your selection.",
+        "On each turn, the basic striker unit can move 3 times and kick the ball once. You get two turns for this level; press Space to move to the next turn.",
+        "Strikers can perform the actions of one turn in any order (so you can move, then kick, then move). Press R to restart the current level.",
         "A striker can move into the ball to switch positions with it.",
         "Press Q and E to switch between levels that you've unlocked. Your progress is saved automatically.",
         "Press Tab to switch between the strikers on your team.",

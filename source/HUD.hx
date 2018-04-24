@@ -146,13 +146,13 @@ class GameStatusBox extends FlxSpriteGroup
     private var textWidth = 175;
 
     private var scoreOffsetX = 15;
-    private var scoreOffsetY = 10;
+    private var scoreOffsetY = 1;
     private var turnOffsetX = 15;
-    private var turnOffsetY = 30;
+    private var turnOffsetY = 21;
     private var whoseOffsetX = 15;
-    private var whoseOffsetY = 50;
+    private var whoseOffsetY = 41;
     private var goalOffsetX = 15;
-    private var goalOffsetY = 80;
+    private var goalOffsetY = 61;
 
     public function new()
 	{
