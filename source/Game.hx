@@ -582,7 +582,9 @@ class SkaterBoy extends Striker
                         "something. Unlike\n" +
                         "other units, they\n" +
                         "can't swap positions\n" +
-                        "with the ball.\n";
+                        "with the ball.\n" +
+                        "They kick the ball 4\n" +
+                        "spaces instead of 3.\n";
         endTurn();
     }
 
