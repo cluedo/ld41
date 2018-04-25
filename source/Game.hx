@@ -350,7 +350,18 @@ class Actor
 
     public function unfreezeInput(timer:FlxTimer) {
         Registry.freezeInput = false;
-        game.moveActor(this, startX, startY);
+        for(dx in 0...game.width) {
+            for(signX in [-1, 1]) {
+                for(dy in 0...game.height) {
+                    for(signY in [-1, 1]) {
+                        if(game.getActor(startX + dx * signX, startY + dy * signY) == null && game.getField(startX + dx * signX, startY + dy * signY) == FieldType.FLOOR) {
+                            game.moveActor(this, startX + dx * signX, startY + dy * signY);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public function hasMoves():Bool
