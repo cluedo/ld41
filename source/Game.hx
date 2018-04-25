@@ -148,6 +148,7 @@ class Game
             return true;
         } else if(Registry.currLevel >= Registry.singlePlayerLevelStart) {
             var doNext:FlxTimer->Void = function(t:FlxTimer){
+                Registry.freezeInput = false;
                 FlxG.switchState(new EndScreen());
             };
 
